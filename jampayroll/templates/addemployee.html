@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container-fluid p-2 m-2">
+        <div class="row">
+            <div class="col-sm-4">
+                <form method="POST" action="/addemployee" role="form", name="form">
+                    <div class="row">
+                        {% for field in EmployeeForm %}
+                        <div class="col-sm-6">
+                            {{ field.label }}
+                            </div>
+                            <div class="col-sm-6">
+                            {{ field }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="container-fluid">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block border-light">J A M  a pay stub!</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+

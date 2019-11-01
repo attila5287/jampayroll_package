@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container-fluid p-2 m-2">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="row">
+                {% for field in EmployeeFormData %}
+                <div class="col-sm-6">
+                    {{ field.label }}
+                </div>
+                <div class="col-sm-6">
+                    {{ field.data }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td>firstName</td>
+            <td>middleName</td>
+            <td>lastName</td>
+            <td>companyName</td>
+            <td>allowance</td>
+            <td>hourlyRate</td>
+        </tr>
+        {% for employee in AllEmployees %}
+        <tr>
+            <td>{{ employee.firstName }}</td>
+            <td>{{ employee.middleName }}</td>
+            <td>{{ employee.lastName }}</td>
+            <td>{{ employee.companyName }}</td>
+            <td>{{ employee.allowance }}</td>
+            <td>{{ employee.hourlyRate }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
