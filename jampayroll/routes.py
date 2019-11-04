@@ -24,57 +24,76 @@ posts = [
 def setup():
     pass
     # Recreate database each time for testing new models only
-    # db.drop_all()
+    db.drop_all()
     # only to initiate local db not req'd for actual app on heroku
-    # db.create_all()
+    db.create_all()
 
 @app.route("/")
 @app.route("/addemployee", methods=["GET", "POST"]) 
 def addemployee():
     user_input_first = EmployeeForm()
     if request.method == "POST":
-        user_input_received = EmployeeForm(obj = request.form)
-        employee_to_database = Employe3(
+        user_input_received = EmployeeForm(
             firstName = request.form["firstName"],
             middleName = request.form["middleName"],
             lastName=request.form["lastName"],
-            companyName = request.form["companyName"],
-            allowance = request.form["allowance"],
-            hourlyRate=request.form["hourlyRate"],
-            manager = current_user, 
+            companyName=request.form["companyName"],
             )
-        flash('Employee added to database', 'success')
-        flash('Use forms to generate a paystub', 'info')
+        employee_to_database = Employe3(
+                firstName = request.form["firstName"],
+                middleName = request.form["middleName"],
+                lastName=request.form["lastName"],
+                companyName = request.form["companyName"],
+                allowance = request.form["allowance"],
+                hourlyRate=request.form["hourlyRate"],
+                manager = current_user, 
+                )
+        if user_input_received.validate_if_duplicate():
+            flash('Employee added to database', 'success')
 
-        # database create entry
-        db.session.add(employee_to_database)
+            # database create entry
+            db.session.add(employee_to_database)
 
-        db.session.commit()
-        # bring all columns
-        AllEmployees = Employe3.query.filter_by(user_id = current_user.id)
-        
+            db.session.commit()
+            # bring all columns
+            AllEmployees = Employe3.query.filter_by(user_id = current_user.id)
+            
 
-        # AllEmployees = db.session.query(
-        #     Employe3.lastName,
-        #     Employe3.firstName,
-        #     Employe3.middleName,
-        #     Employe3.companyName,
-        #     Employe3.allowance,
-        #     Employe3.hourlyRate,
-        #     Employe3.user_id
-        #     ).all()
-        
-        return render_template(
-            "addemployee_data.html",
-            EmployeeFormData = user_input_received,
-            title='employee added',
-            AllEmployees = AllEmployees,
-        )
+            # AllEmployees = db.session.query(
+            #     Employe3.lastName,
+            #     Employe3.firstName,
+            #     Employe3.middleName,
+            #     Employe3.companyName,
+            #     Employe3.allowance,
+            #     Employe3.hourlyRate,
+            #     Employe3.user_id
+            #     ).all()
+            
+            return render_template(
+                "addemployee_data.html",
+                EmployeeFormData = user_input_received,
+                title='employee added',
+                AllEmployees = AllEmployees,
+            )
     return render_template(
         "addemployee.html",
         EmployeeForm=user_input_first,
         title = 'add employee'
     )
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
@@ -179,21 +198,6 @@ def home():
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
-
-
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])

@@ -11,6 +11,15 @@ class EmployeeForm(FlaskForm):
    allowance = IntegerField('allowance', default=2) 
    hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00)
    
+   def validate_if_duplicate(self):
+      pass
+      # 
+      concatenated_input = str(self.firstName + self.middleName + self.lastName)
+      _employee_ = Employe3.query.filter_by(
+         firstName= self.firstName.data,
+      ).first()
+      if _employee_:
+         raise ValidationError('Duplicate employee info, please review forms')
    def __rpr__(self):
       pass
       print('test add employee')

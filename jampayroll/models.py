@@ -37,6 +37,7 @@ class Employe3(db.Model):
     allowance = db.Column(db.Integer)
     hourlyRate = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    concatenated_input = str(firstName.data + middleName.data + lastName.data)
     
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
