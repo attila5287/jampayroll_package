@@ -17,25 +17,70 @@
         </div>
     </div>
 </div>
-
-<table class="table">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card bg-dark p-4 text-light mb-2">
+                    <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_formIcon_wallArt_employee_add.ico" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <p class="card-text">features add-updte-delete-employee</p>
+                        <a href="/addemployee" class="btn btn-danger" target="_blank">Learn More</a>
+                    </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card bg-dark p-4 text-light text-center mb-2">
+                    <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_formIcon_wallArt_employee_delete.ico" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <p class="card-text">features add-updte-delete-employee</p>
+                        <a href="/addemployee" class="btn btn-danger" target="_blank">Learn More</a>
+                    </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card bg-dark p-4 text-light mb-2">
+                    <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_formIcon_wallArt_employee_show.ico" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <p class="card-text">features add-updte-delete-employee</p>
+                        <a href="/addemployee" class="btn btn-danger" target="_blank">Learn More</a>
+                    </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card bg-dark p-4 text-light mb-2">
+                <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_formIcon_wallArt_employee_update.ico" alt="Card image" style="width:100%">
+                <div class="card-body">
+                    <p class="card-text">features add-updte-delete-employee</p>
+                    <a href="/addemployee" class="btn btn-danger" target="_blank">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table table-hover table-striped mt-5">
     <tbody>
-        <tr>
-            <td>firstName</td>
-            <td>middleName</td>
-            <td>lastName</td>
-            <td>companyName</td>
-            <td>allowance</td>
-            <td>hourlyRate</td>
-        </tr>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align:center">id</th>
+                <th scope="col" style="text-align:center">firstName</th>
+                <th scope="col" style="text-align:center">middleName</th>
+                <th scope="col" style="text-align:center">lastName</th>
+                <th scope="col" style="text-align:center">companyName</th>
+                <th scope="col" style="text-align:center">allowance</th>
+                <th scope="col" style="text-align:center">hourlyRate</th>
+                <th scope="col" style="text-align:center">userID</th>
+            </tr>
+        </thead>
         {% for employee in AllEmployees %}
         <tr>
-            <td>{{ employee.firstName }}</td>
-            <td>{{ employee.middleName }}</td>
-            <td>{{ employee.lastName }}</td>
-            <td>{{ employee.companyName }}</td>
-            <td>{{ employee.allowance }}</td>
-            <td>{{ employee.hourlyRate }}</td>
+            <td style="text-align:center">{{ employee.id }}</td>
+            <td style="text-align:center">{{ employee.firstName }}</td>
+            <td style="text-align:center">{{ employee.middleName }}</td>
+            <td style="text-align:center">{{ employee.lastName }}</td>
+            <td style="text-align:center">{{ employee.companyName }}</td>
+            <td style="text-align:center">{{ employee.allowance }}</td>
+            <td style="text-align:center">{{ employee.hourlyRate }}</td>
+            <td style="text-align:center">{{ employee.user_id }}</td>
         </tr>
         {% endfor %}
     </tbody>

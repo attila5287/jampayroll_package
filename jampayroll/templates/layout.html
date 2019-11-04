@@ -20,7 +20,7 @@
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">
-            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_nav_png384_slabb.png" width="80" height="32">
+            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_navicon_papershipJar_transparent.ico" width="84" height="48">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
               <a class="nav-item nav-link" href="{{ url_for('intro') }}">Intro</a>
-              <a class="nav-item nav-link" href="{{ url_for('send') }}">Forms</a>
+              <a class="nav-item nav-link" href="{{ url_for('send') }}">PayStub</a>
               <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">Timesheet</a>
               <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
               <a class="nav-item nav-link" href="https://github.com/attila5287/justaminutepayroll">Code</a>
@@ -38,6 +38,7 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('addemployee') }}">AddEmployee</a>
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
@@ -63,15 +64,17 @@
           {% endwith %}
           {% block content %}{% endblock %}
         </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
+        <div class="col-md-3 mt-3">
+          <div class="content-section bg-dark" style="align-content: center;">
+              <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_side_features_brushedFramed_transparent.ico" width="175" height="75">
+            <p class='text-muted'>
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
+                <li class="list-group-item list-group-item-light">Calculate Hours</li>
+                <li class="list-group-item list-group-item-light">Print Out Pay Stub</li>
+                <li class="list-group-item list-group-item-light">Create Free Profile *</li>
+                <li class="list-group-item list-group-item-light">*Record Employee Info </li>
+                <li class="list-group-item list-group-item-light">*Read & Report Data</li>
+                <li class="list-group-item list-group-item-light">*Dashboard Visuals </li>
               </ul>
             </p>
           </div>
@@ -79,7 +82,7 @@
       </div>
       
     <!-- FOOTER -->
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <footer class="pt-2 my-md-5 pt-md-2 border-top">
         <div class="row">
         <div class="col-12 col-md">
             <img class="mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_upperleft_png512_brushedRedBlack.png" alt="" width="128" height="128">

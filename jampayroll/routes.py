@@ -1,10 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from jampayroll import app, db, bcrypt
-from jampayroll.forms import RegistrationForm, LoginForm, WeeklyHours, DailyHours, EmployeeForm
+from jampayroll.forms import RegistrationForm, LoginForm, WeeklyHours, DailyHours, EmployeeForm, PostForm
 from jampayroll.models import User, Post, Employee, Employe3
 from jampayroll.Pay_stub import Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
 from flask_login import login_user, current_user, logout_user, login_required
-
+# =========================================
 posts = [
     {
         'author': 'Corey Schafer',
@@ -23,47 +23,74 @@ posts = [
 @app.before_first_request
 def setup():
     pass
-    # Recreate database each time for demo
+    # Recreate database each time for testing new models only
     # db.drop_all()
-    db.create_all()
+    # only to initiate local db not req'd for actual app on heroku
+    # db.create_all()
 
 @app.route("/")
 @app.route("/addemployee", methods=["GET", "POST"]) 
 def addemployee():
     user_input_first = EmployeeForm()
     if request.method == "POST":
-        user_input_received = EmployeeForm(obj=request.form)
+        user_input_received = EmployeeForm(obj = request.form)
         employee_to_database = Employe3(
             firstName = request.form["firstName"],
             middleName = request.form["middleName"],
             lastName=request.form["lastName"],
             companyName = request.form["companyName"],
             allowance = request.form["allowance"],
-            hourlyRate = request.form["hourlyRate"]
+            hourlyRate=request.form["hourlyRate"],
+            manager = current_user, 
             )
         flash('Employee added to database', 'success')
         flash('Use forms to generate a paystub', 'info')
 
         # database create entry
         db.session.add(employee_to_database)
-        # db.session.add(user_input_received)
+
         db.session.commit()
-        AllEmployees = db.session.query(
-            Employe3.lastName,
-            Employe3.firstName,
-            Employe3.middleName,
-            Employe3.companyName,
-            Employe3.allowance,
-            Employe3.hourlyRate
-            ).all()
+        # bring all columns
+        AllEmployees = Employe3.query.filter_by(user_id = current_user.id)
+        
+
+        # AllEmployees = db.session.query(
+        #     Employe3.lastName,
+        #     Employe3.firstName,
+        #     Employe3.middleName,
+        #     Employe3.companyName,
+        #     Employe3.allowance,
+        #     Employe3.hourlyRate,
+        #     Employe3.user_id
+        #     ).all()
+        
         return render_template(
             "addemployee_data.html",
-            EmployeeFormData=user_input_received,
+            EmployeeFormData = user_input_received,
             title='employee added',
-            AllEmployees = AllEmployees
+            AllEmployees = AllEmployees,
         )
-    return render_template("addemployee.html", EmployeeForm = user_input_first, title = 'add employee')
+    return render_template(
+        "addemployee.html",
+        EmployeeForm=user_input_first,
+        title = 'add employee'
+    )
 
+@app.route("/post/new", methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template(
+        'create_post.html',
+        title='New Post', 
+        form=form, legend='New Post',
+    )
 
 @app.route('/timesheet', methods = ['POST', 'GET'])
 def timesheet():
@@ -142,27 +169,6 @@ def send():
         return render_template("pay_stub_generat0r.html", Pay_stub=generated_paystub, dict = dict)
         
     return render_template("form.html")
-
-@app.route("/api/pals")
-def pals():
-   results = db.session.query(Employee.lastName, Employee.firstName, Employee.middleName, Employee.allowance, Employee.hourlyRate, Employee.hoursWorked).all()
-
-   firstName = [result[0] for result in results]
-   middleName = [result[1] for result in results]
-   lastName = [result[2] for result in results]
-   allowance = [result[3] for result in results]
-   hourlyRate = [result[4] for result in results]
-   hoursWorked = [result[5] for result in results]
-   ee_data = [{
-         'firstName' : firstName,
-         'middleName' : middleName,
-         'lastName' : lastName,
-         'allowance' : allowance,
-         'hourlyRate' : hourlyRate,
-         'hoursWorked' : hoursWorked
-   }]
-   return jsonify(ee_data)
-
 # ================IMPLEMENT JAMPAYROLL ABOVE================
 
 @app.route("/home")
@@ -216,3 +222,26 @@ def logout():
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+
+
+@app.route("/api/pals")
+def pals():
+   results = db.session.query(Employee.lastName, Employee.firstName, Employee.middleName, Employee.allowance, Employee.hourlyRate, Employee.hoursWorked).all()
+
+   firstName = [result[0] for result in results]
+   middleName = [result[1] for result in results]
+   lastName = [result[2] for result in results]
+   allowance = [result[3] for result in results]
+   hourlyRate = [result[4] for result in results]
+   hoursWorked = [result[5] for result in results]
+   ee_data = [{
+         'firstName' : firstName,
+         'middleName' : middleName,
+         'lastName' : lastName,
+         'allowance' : allowance,
+         'hourlyRate' : hourlyRate,
+         'hoursWorked' : hoursWorked
+   }]
+   return jsonify(ee_data)
+

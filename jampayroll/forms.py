@@ -7,9 +7,10 @@ class EmployeeForm(FlaskForm):
    firstName = StringField('first name',validators=[DataRequired()], default = 'Attila')
    middleName = StringField('middle name', default = 'Selcuk')
    lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz')
-   companyName = StringField('company name',validators=[DataRequired()], default = 'JAM')
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM')
    allowance = IntegerField('allowance', default=2) 
-   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default = 44.00)
+   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00)
+   
    def __rpr__(self):
       pass
       print('test add employee')
@@ -40,8 +41,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
-# ===================== IMPLEMENT JAMPAYROLL BELOW =======================
 
+# ===================== IMPLEMENT JAMPAYROLL BELOW =======================
 class WeeklyHours(FlaskForm):
    pass
    hh_beg_01 = IntegerField(default = '09')
@@ -205,3 +206,9 @@ class DailyHours(FlaskForm):
       pass
       days=['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
       return days
+
+# form to create posts
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
