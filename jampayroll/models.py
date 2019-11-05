@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
     employees = db.relationship('Employe3', backref='manager', lazy=True)
+    tags = db.relationship('Unique', backref='manag3r', lazy=True)
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
@@ -37,7 +38,6 @@ class Employe3(db.Model):
     allowance = db.Column(db.Integer)
     hourlyRate = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    concatenated_input = str(firstName.data + middleName.data + lastName.data)
     
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
@@ -55,3 +55,8 @@ class Employee(db.Model):
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
+
+class Unique(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    tag = db.Column(db.String(64))

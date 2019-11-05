@@ -1,7 +1,27 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, IntegerField, TextAreaField, RadioField, SelectField, DecimalField, Label 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from jampayroll.models import User, Employee, Employe3
+from jampayroll.models import User, Employee, Employe3, Unique
+
+class Form2SQL(FlaskForm):
+   def __init__(self, firstName="Attila", middleName="Selcuk", lastName="Turkoz", companyName="JAM", manag3r = ''):
+      pass
+      self.firstName =  firstName
+      self.middleName = middleName
+      self.lastName = lastName
+      self.concat_input = ''
+      self.manag3r = manag3r   
+      return None
+      
+   def concat_input_as_tag(self):
+      pass
+      if self.middleName == None:
+         pass
+         concat_input = str(self.firstName + self.middleName + self.lastName)
+      else:
+         pass
+         concat_input = str(self.firstName + self.lastName)
+      return concat_input
 
 class EmployeeForm(FlaskForm):
    firstName = StringField('first name',validators=[DataRequired()], default = 'Attila')
@@ -11,15 +31,6 @@ class EmployeeForm(FlaskForm):
    allowance = IntegerField('allowance', default=2) 
    hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00)
    
-   def validate_if_duplicate(self):
-      pass
-      # 
-      concatenated_input = str(self.firstName + self.middleName + self.lastName)
-      _employee_ = Employe3.query.filter_by(
-         firstName= self.firstName.data,
-      ).first()
-      if _employee_:
-         raise ValidationError('Duplicate employee info, please review forms')
    def __rpr__(self):
       pass
       print('test add employee')
@@ -40,8 +51,9 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That username is taken. Please choose a different one.')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user:
+       pass
+       user = User.query.filter_by(email=email.data).first()
+       if user:
             raise ValidationError('That email is taken. Please choose a different one.')
 
 class LoginForm(FlaskForm):
