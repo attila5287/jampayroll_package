@@ -1,7 +1,7 @@
 from datetime import datetime
 from jampayroll import db, login_manager
 from flask_login import UserMixin
-
+# ===================================
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -15,9 +15,11 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
     employees = db.relationship('Employe3', backref='manager', lazy=True)
     tags = db.relationship('Unique', backref='manag3r', lazy=True)
+    companies = db.relationship('Unique', backref='man4ger', lazy=True)
+    
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
-
+# ===================================
 class Post(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -38,20 +40,6 @@ class Employe3(db.Model):
     allowance = db.Column(db.Integer)
     hourlyRate = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    
-    def __repr__(self):
-        return '<Employee %r %r>' % (self.firstName, self.lastName) 
-
-class Employee(db.Model):
-    # __tablename__ = 'employee'
-    id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(64))
-    middleName = db.Column(db.String(64))
-    lastName = db.Column(db.String(64))
-    companyName = db.Column(db.String(64))
-    allowance = db.Column(db.Integer)
-    hourlyRate = db.Column(db.Float)
-    hoursWorked = db.Column(db.Float)
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
@@ -60,3 +48,11 @@ class Unique(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tag = db.Column(db.String(64))
+
+class Company(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    companyName = db.Column(db.String(64))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return '<Employee %r %r>' % (self.firstName, self.lastName) 

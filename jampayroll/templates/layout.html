@@ -1,4 +1,4 @@
-<html>
+ <html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     {% if title %}
         <title>jampayroll - {{ title }}</title>
     {% else %}
@@ -20,7 +22,7 @@
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">
-            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_navicon_papershipJar_transparent.ico" width="84" height="48">
+            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_navIcon_jar_db_neural_metallic.ico" width="96" height="44">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -38,7 +40,9 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('home') }}">Wall</a>
                 <a class="nav-item nav-link" href="{{ url_for('addemployee') }}">AddEmployee</a>
+                <a class="nav-item nav-link" href="{{ url_for('addemployee') }}">AddCompany</a>
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
@@ -62,7 +66,8 @@
               {% endfor %}
             {% endif %}
           {% endwith %}
-          {% block content %}{% endblock %}
+          {% block content %}
+          {% endblock %}
         </div>
         <div class="col-md-3 mt-3">
           <div class="content-section bg-dark" style="align-content: center;">

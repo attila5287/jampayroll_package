@@ -1,24 +1,22 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from jampayroll import app, db, bcrypt
 from jampayroll.forms import RegistrationForm, LoginForm, WeeklyHours, DailyHours, EmployeeForm, PostForm, Form2SQL
-from jampayroll.models import User, Post, Employee, Employe3, Unique
+from jampayroll.models import (
+    User, 
+    Post, 
+    Employe3, 
+    Unique
+    )
 from jampayroll.Pay_stub import Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
 from flask_login import login_user, current_user, logout_user, login_required
 # =========================================
 posts = [
     {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
+        'author': 'Corey Schafer', 'title': 'Blog Post 1', 'content': 'First post content', 'date_posted': 'April 20, 2018' },
+    {   'author': 'Jane Doe', 'title': 'Blog Post 2', 'content': 'Second post content',
+        'date_posted': 'April 21, 2018'}
+    ]
+# =========================================
 
 @app.before_first_request
 def setup():
@@ -26,12 +24,78 @@ def setup():
     # Recreate database each time for testing new models only
     # db.drop_all()
 
-    # only to initiate local db not req'd for actual app on heroku
+    # For testing only on local db-sqlite: not req'd for actual app on heroku
     # db.create_all()
 
 @app.route("/")
+@app.route("/wall", methods = ['GET', 'POST',])
+def wall():
+    pass
+    AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
+    
+    if request.method == "POST":
+        pass
+        return render_template(
+        "wall.html",
+        EmployeeFormData = FormsFilled,
+        title='add employee',
+        AllEmployees = AllEmployees,
+        )
+        
+    return render_template(
+    "wall.html",
+    title='wall',
+    AllEmployees = AllEmployees,
+    )
+        
+
 @app.route("/addemployee", methods=["GET", "POST"]) 
 def addemployee():
+    pass
+    Forms2fill = EmployeeForm()
+    if request.method == "POST":
+        pass
+        # Forms2fill.validate_uniq3()
+        FormsFilled = EmployeeForm(obj=request.form)
+        FormsFilled.generate_tag()
+        generated_tag = str(FormsFilled.tag)
+        duplicate = Unique.query.filter_by(tag=generated_tag).first()
+        print(duplicate)
+        if  duplicate == None:
+            pass
+            print('routes if equals none')
+            tag_to_database = Unique(tag = generated_tag, manag3r = current_user)
+            db.session.add(tag_to_database)
+            employee_to_database = Employe3(firstName = request.form["firstName"],middleName = request.form["middleName"], lastName = request.form["lastName"], companyName = request.form["companyName"],
+            allowance = request.form["allowance"], hourlyRate=request.form["hourlyRate"], manager = current_user,)
+            # database create entry
+            db.session.add(employee_to_database)
+            db.session.commit()
+            flash('Employee added to database', 'success')
+            UserAllEmployees = Employe3.query.filter_by(user_id=current_user.id)
+            return render_template(
+                "addemployee_data.html",
+                EmployeeFormData = FormsFilled,
+                title='add employee',
+                AllEmployees = UserAllEmployees,
+                )
+        else:
+            print('route > else')
+            # raise ValidationError('Duplicate record')
+            flash('Duplicate record, please review info', 'danger')
+            return redirect(
+                url_for('addemployee')
+                )
+        
+    return render_template(
+        "addemployee.html",
+        EmployeeForm = Forms2fill,
+        title = 'add employee'
+        )
+
+@app.route("/addemploy3e", methods=["GET", "POST"]) 
+def addemploy3e():
+    pass
     user_input_first = EmployeeForm()
     if request.method == "POST":
         unique_check = Form2SQL(
@@ -41,32 +105,52 @@ def addemployee():
             companyName=request.form["companyName"],
             manag3r = current_user, 
             )
+        concat_input = unique_check.concat_input_chk_unq()
+        _duplicate_ = Unique.query.filter_by(tag=concat_input).first()
         
-        concat_input = unique_check.concat_input_as_tag()
-        _duplicate_ = Unique.query.filter_by(tag= concat_input).first()
-        if _duplicate_:
+        if not _duplicate_:
             pass
-            employee_to_database = Employe3(
+            unique_check = Form2SQL(
             firstName = request.form["firstName"],
             middleName = request.form["middleName"],
             lastName=request.form["lastName"],
+            companyName=request.form["companyName"],
+            manag3r = current_user, 
+            )
+            employee_to_database = Employe3()
+            employee_to_database = Employe3(
+            firstName = request.form["firstName"],
+            middleName = request.form["middleName"],
+            lastName = request.form["lastName"],
             companyName = request.form["companyName"],
             allowance = request.form["allowance"],
             hourlyRate=request.form["hourlyRate"],
             manager = current_user, 
             )
+            
             # database create entry
             db.session.add(employee_to_database)
             db.session.commit()
             flash('Employee added to database', 'success')
-        else:
-            # raise ValidationError('Duplicate employee info, please review forms')
+            AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
+            FormsFilled = EmployeeForm(obj=request.form)
+            return render_template(
+            "addemployee_data.html",
+            EmployeeFormData = FormsFilled,
+            title='employee added',
+            AllEmployees = AllEmployees,
+        )
+        elif _duplicate_:
             flash('Duplicate employee info, please review forms', 'danger')
+            return(redirect(url_for('addemployee')))
+        else:
+            pass
+            return(redirect(url_for('addemployee')))
         AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
-        user_input_received = EmployeeForm(obj=request.form)
+        FormsFilled = EmployeeForm(obj=request.form)
         return render_template(
             "addemployee_data.html",
-            EmployeeFormData = user_input_received,
+            EmployeeFormData = FormsFilled,
             title='employee added',
             AllEmployees = AllEmployees,
         )
@@ -137,28 +221,19 @@ def intro():
 @app.route("/send", methods=["GET", "POST"]) 
 def send():
     if request.method == "POST":
-        employee = Employee(
-            firstName = request.form["firstName"],
-            middleName = request.form["middleName"],
-            lastName=request.form["lastName"],
-            companyName = request.form["companyName"],
-            allowance = request.form["allowance"],
-            hourlyRate = request.form["hourlyRate"],
-            hoursWorked=request.form["hoursWorked"]
-            )
-        #  database create entry
-        db.session.add(employee)
-        db.session.commit()
-
-        user_input = Employee_form_data(
-            firstName = request.form["firstName"],
-            middleName = request.form["middleName"],
-            lastName=request.form["lastName"],
-            companyName = request.form["companyName"],
-            allowance = request.form["allowance"],
-            hourlyRate = request.form["hourlyRate"],
-            hoursWorked=request.form["hoursWorked"]
-        )
+        
+        # employee = Employee(
+        #     firstName = request.form["firstName"],
+        #     middleName = request.form["middleName"],
+        #     lastName=request.form["lastName"],
+        #     companyName = request.form["companyName"],
+        #     allowance = request.form["allowance"],
+        #     hourlyRate = request.form["hourlyRate"],
+        #     hoursWorked=request.form["hoursWorked"]
+        #     )
+        # #  database create entry
+        # # db.session.add(employee)
+        # db.session.commit()
 
         generated_paystub = ModGeneratedPayStubFrom(
             firstName = request.form["firstName"],
@@ -184,7 +259,6 @@ def send():
         return render_template("pay_stub_generat0r.html", Pay_stub=generated_paystub, dict = dict)
         
     return render_template("form.html")
-# ================IMPLEMENT JAMPAYROLL ABOVE================
 
 @app.route("/home")
 def home():
@@ -223,8 +297,6 @@ def logout():
 def account():
     return render_template('account.html', title='Account')
 
-
-
 @app.route("/api/pals")
 def pals():
    results = db.session.query(Employee.lastName, Employee.firstName, Employee.middleName, Employee.allowance, Employee.hourlyRate, Employee.hoursWorked).all()
@@ -244,4 +316,3 @@ def pals():
          'hoursWorked' : hoursWorked
    }]
    return jsonify(ee_data)
-
