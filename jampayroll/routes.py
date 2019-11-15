@@ -1,170 +1,121 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from jampayroll import app, db, bcrypt
-from jampayroll.forms import RegistrationForm, LoginForm, WeeklyHours, DailyHours, EmployeeForm, PostForm, Form2SQL
+from jampayroll.forms import (
+    RegistrationForm, 
+    LoginForm, 
+    WeeklyHours, 
+    DailyHours, 
+    EmployeeForm, 
+    CompanyForm, 
+    PostForm, 
+    Form2SQL
+    )
 from jampayroll.models import (
     User, 
     Post, 
-    Employe3, 
-    Unique
+    Employee, 
+    Unique,
+    Company
     )
 from jampayroll.Pay_stub import Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
 from flask_login import login_user, current_user, logout_user, login_required
 # =========================================
 posts = [
     {
-        'author': 'Corey Schafer', 'title': 'Blog Post 1', 'content': 'First post content', 'date_posted': 'April 20, 2018' },
-    {   'author': 'Jane Doe', 'title': 'Blog Post 2', 'content': 'Second post content',
-        'date_posted': 'April 21, 2018'}
+        'author': 'S Attila Turkoz', 'title': 'Post Numero Uno', 'content': 'First post content', 'date_posted': 'November, 15 2019' },
     ]
 # =========================================
 
 @app.before_first_request
 def setup():
     pass
-    # Recreate database each time for testing new models only
+    # Drops all data, dont forget to register again if testing user-only features
     # db.drop_all()
-
-    # For testing only on local db-sqlite: not req'd for actual app on heroku
+    # Creates all tables, required if a new db-model to be tested
     # db.create_all()
 
-@app.route("/")
-@app.route("/wall", methods = ['GET', 'POST',])
+@app.route("/", methods = ["GET", "POST"])             
+@app.route("/wall", methods = ["GET", "POST"]) 
 def wall():
     pass
-    AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
-    
-    if request.method == "POST":
-        pass
+    if current_user.is_authenticated:
+        UserAllEmployees = Employee.query.filter_by(user_id=current_user.id)
+        UserAllCompanies = Company.query.filter_by(user_id=current_user.id)
+        EmployeeF0rm = EmployeeForm()
+        CompanyF0rm = CompanyForm()
         return render_template(
-        "wall.html",
-        EmployeeFormData = FormsFilled,
-        title='add employee',
-        AllEmployees = AllEmployees,
-        )
-        
-    return render_template(
-    "wall.html",
-    title='wall',
-    AllEmployees = AllEmployees,
-    )
-        
+            "wall.html",
+            EmployeeForm = EmployeeF0rm, 
+            CompanyForm = CompanyF0rm, 
+            title = 'wall', 
+            AllEmployees = UserAllEmployees, 
+            AllCompanies = UserAllCompanies, 
+            WallPosts = posts
+            )
+    else:
+        return redirect('login')
 
-@app.route("/addemployee", methods=["GET", "POST"]) 
+@app.route('/addcompany', methods = ["POST"])
+def addcompany():
+    pass
+    FormsFilled = CompanyForm(obj = request.form)
+    duplicate = Company.query.filter_by(companyName = str(FormsFilled.companyName.data)).first()
+    if duplicate == None:
+        pass
+        company_to_database = Company(
+            companyName = FormsFilled.companyName.data, 
+            man4ger = current_user
+            )
+        db.session.add(company_to_database)
+        db.session.commit()
+        flash('Company added to database', 'secondary')
+        return render_template(
+            'addcompany_data.html', 
+            CompanyFormData = FormsFilled,
+            )
+    else:
+        pass
+        flash('Duplicate record, please review info and try again')
+        redirect(url_for('wall'))
+
+@app.route("/addemployee", methods=["POST"]) 
 def addemployee():
     pass
-    Forms2fill = EmployeeForm()
-    if request.method == "POST":
+    # Forms2fill.validate_uniq3()
+    FormsFilled = EmployeeForm(obj=request.form)
+    FormsFilled.generate_tag()
+    generated_tag = str(FormsFilled.tag)
+    duplicate = Unique.query.filter_by(tag=generated_tag).first()
+    print(duplicate)
+    if  duplicate == None:
         pass
-        # Forms2fill.validate_uniq3()
-        FormsFilled = EmployeeForm(obj=request.form)
-        FormsFilled.generate_tag()
-        generated_tag = str(FormsFilled.tag)
-        duplicate = Unique.query.filter_by(tag=generated_tag).first()
-        print(duplicate)
-        if  duplicate == None:
-            pass
-            print('routes if equals none')
-            tag_to_database = Unique(tag = generated_tag, manag3r = current_user)
-            db.session.add(tag_to_database)
-            employee_to_database = Employe3(firstName = request.form["firstName"],middleName = request.form["middleName"], lastName = request.form["lastName"], companyName = request.form["companyName"],
-            allowance = request.form["allowance"], hourlyRate=request.form["hourlyRate"], manager = current_user,)
-            # database create entry
-            db.session.add(employee_to_database)
-            db.session.commit()
-            flash('Employee added to database', 'success')
-            UserAllEmployees = Employe3.query.filter_by(user_id=current_user.id)
-            return render_template(
-                "addemployee_data.html",
-                EmployeeFormData = FormsFilled,
-                title='add employee',
-                AllEmployees = UserAllEmployees,
-                )
-        else:
-            print('route > else')
-            # raise ValidationError('Duplicate record')
-            flash('Duplicate record, please review info', 'danger')
-            return redirect(
-                url_for('addemployee')
-                )
-        
-    return render_template(
-        "addemployee.html",
-        EmployeeForm = Forms2fill,
-        title = 'add employee'
-        )
-
-@app.route("/addemploy3e", methods=["GET", "POST"]) 
-def addemploy3e():
-    pass
-    user_input_first = EmployeeForm()
-    if request.method == "POST":
-        unique_check = Form2SQL(
-            firstName = request.form["firstName"],
-            middleName = request.form["middleName"],
-            lastName=request.form["lastName"],
-            companyName=request.form["companyName"],
-            manag3r = current_user, 
-            )
-        concat_input = unique_check.concat_input_chk_unq()
-        _duplicate_ = Unique.query.filter_by(tag=concat_input).first()
-        
-        if not _duplicate_:
-            pass
-            unique_check = Form2SQL(
-            firstName = request.form["firstName"],
-            middleName = request.form["middleName"],
-            lastName=request.form["lastName"],
-            companyName=request.form["companyName"],
-            manag3r = current_user, 
-            )
-            employee_to_database = Employe3()
-            employee_to_database = Employe3(
-            firstName = request.form["firstName"],
-            middleName = request.form["middleName"],
-            lastName = request.form["lastName"],
-            companyName = request.form["companyName"],
-            allowance = request.form["allowance"],
-            hourlyRate=request.form["hourlyRate"],
-            manager = current_user, 
-            )
-            
-            # database create entry
-            db.session.add(employee_to_database)
-            db.session.commit()
-            flash('Employee added to database', 'success')
-            AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
-            FormsFilled = EmployeeForm(obj=request.form)
-            return render_template(
-            "addemployee_data.html",
-            EmployeeFormData = FormsFilled,
-            title='employee added',
-            AllEmployees = AllEmployees,
-        )
-        elif _duplicate_:
-            flash('Duplicate employee info, please review forms', 'danger')
-            return(redirect(url_for('addemployee')))
-        else:
-            pass
-            return(redirect(url_for('addemployee')))
-        AllEmployees = Employe3.query.filter_by(user_id=current_user.id)
-        FormsFilled = EmployeeForm(obj=request.form)
+        print('routes if equals none')
+        tag_to_database = Unique(tag = generated_tag, manag3r = current_user)
+        db.session.add(tag_to_database)
+        employee_to_database = Employee(firstName = request.form["firstName"],middleName = request.form["middleName"], lastName = request.form["lastName"], companyName = request.form["companyName"],
+        allowance = request.form["allowance"], hourlyRate=request.form["hourlyRate"], manager = current_user,)
+        # database create entry
+        db.session.add(employee_to_database)
+        db.session.commit()
+        flash('Employee added to database', 'secondary')
         return render_template(
             "addemployee_data.html",
             EmployeeFormData = FormsFilled,
-            title='employee added',
-            AllEmployees = AllEmployees,
-        )
+            title='add employee',
+            )
+    else:
+        print('route > else')
+        # raise ValidationError('Duplicate record')
+        flash('Duplicate record, please review info', 'danger')
+        return redirect(
+            url_for('wall')
+            )
 
-    return render_template(
-        "addemployee.html",
-        EmployeeForm=user_input_first,
-        title = 'add employee'
-    )
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('wall'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')

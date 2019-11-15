@@ -1,21 +1,19 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, IntegerField, TextAreaField, RadioField, SelectField, DecimalField, Label 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from jampayroll.models import (
-   User, 
-   # Employee, 
-   Employe3, 
-   Unique
-)
+
 from jampayroll import app, db
 
+class CompanyForm(FlaskForm):
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
+   
 class EmployeeForm(FlaskForm):
-   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila')
-   middleName = StringField('middle name', default = '')
-   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz')
-   companyName = StringField('company',validators=[DataRequired()], default = 'JAM')
+   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila') 
+   middleName = StringField('middle name', default = '') 
+   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz') 
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
    allowance = IntegerField('allowance', default=2) 
-   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00)
+   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00) 
    tag = ''
 
    def __rpr__(self):
@@ -51,7 +49,6 @@ class EmployeeForm(FlaskForm):
          print('method else ')
          return False
 
-
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -72,7 +69,6 @@ class RegistrationForm(FlaskForm):
        user = User.query.filter_by(email=email.data).first()
        if user:
             raise ValidationError('That email is taken. Please choose a different one.')
-
 
 class LoginForm(FlaskForm):
     email = StringField('Email',

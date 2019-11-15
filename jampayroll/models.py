@@ -13,9 +13,9 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
-    employees = db.relationship('Employe3', backref='manager', lazy=True)
+    employees = db.relationship('Employee', backref='manager', lazy=True)
     tags = db.relationship('Unique', backref='manag3r', lazy=True)
-    companies = db.relationship('Unique', backref='man4ger', lazy=True)
+    companies = db.relationship('Company', backref='man4ger', lazy=True)
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
@@ -31,7 +31,7 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 # ==================== JAMPAYROLL : employee BELOW ==================
-class Employe3(db.Model):
+class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(64))
     middleName = db.Column(db.String(64))
@@ -56,3 +56,6 @@ class Company(db.Model):
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
+    
+    
+    
