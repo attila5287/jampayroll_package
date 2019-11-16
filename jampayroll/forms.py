@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, IntegerField, TextAreaField, RadioField, SelectField, DecimalField, Label 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-
+from jampayroll.models import (User, Post, Employee, Unique, Company,)
 from jampayroll import app, db
 
 class CompanyForm(FlaskForm):
