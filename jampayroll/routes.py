@@ -1,5 +1,9 @@
-from flask import render_template, url_for, flash, redirect, request, jsonify
-from jampayroll import app, db, bcrypt
+from flask import (
+    render_template, url_for, flash, redirect, request, jsonify
+    )
+from jampayroll import (
+    app, db, bcrypt
+    )
 from jampayroll.forms import (
     RegistrationForm, 
     LoginForm, 
@@ -17,8 +21,12 @@ from jampayroll.models import (
     Unique,
     Company
     )
-from jampayroll.Pay_stub import Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
-from flask_login import login_user, current_user, logout_user, login_required
+from jampayroll.Pay_stub import (
+    Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
+    )
+from flask_login import (
+    login_user, current_user, logout_user, login_required
+    )
 # =========================================
 posts = [
     {

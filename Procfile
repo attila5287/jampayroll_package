@@ -1,1 +1,1 @@
-web: gunicorn jampayroll.run:app
+web: gunicorn jampayroll:app
