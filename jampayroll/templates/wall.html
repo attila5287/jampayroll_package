@@ -1,31 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in WallPosts %}
-    <div class="container-fluid my-2 p-2">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card" style="background-color:silver;border-color: silver;">
-                    <div class="card-header">
-                        <a class="mr-2" href="#">{{ post.author }}</a>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-title">Title</h6>
-                        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-                        <p class="card-text text-muted">{{ post.content }}</p>
-                    </div>
-                    <div class="card-footer text-muted">
-                            {{ post.date_posted }}
-                    </div>
+<div class="container-fluid my-2 p-2">
+    <div class="row">
+        <div class="col-sm-6">
+            {% for post in WallPosts %}
+            <article class="media content-section">
+                <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ post.author }}</a>
+                    <small class="text-muted">{{ post.date_posted }}</small>
                 </div>
-            </div>
+                <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+                </div>
+            </article>
+            {% endfor %}
         </div>
     </div>
-
-
-
-
-    {% endfor %}
-
+    
+</div>
 <div class="container-fluid my-2 p-2">
     <div class="row">
         <div class="col-sm-6">
