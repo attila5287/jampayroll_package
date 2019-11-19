@@ -22,7 +22,7 @@
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">
-            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/navBarIcon_jam_jar_db.ico" width="128" height="55">
+            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/navBarIcon_jar_db_iconized.ico" width="128" height="44">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
@@ -32,26 +32,43 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('intro') }}">Intro</a>
-              <a class="nav-item nav-link" href="{{ url_for('send') }}">PayStub</a>
-              <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">Timesheet</a>
-              <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
-              <a class="nav-item nav-link" href="https://github.com/attila5287/justaminutepayroll">Code</a>
-              <a class="nav-item nav-link" href="https://github.com/attila5287/payroll_management_app_assets">Graphics</a>
+              <a class="nav-item nav-link" href="{{ url_for('intro') }}">
+                <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>Intro
+              </a>
+              <a class="nav-item nav-link" href="{{ url_for('send') }}">
+                <i class="fa fa-print mr-2" aria-hidden="true"></i>
+                PayStub</a>
+              <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">
+                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">
+                <i class="fa fa-question-circle  mr-2" aria-hidden="true"></i>About</a>
+              <a class="nav-item nav-link" href="https://github.com/attila5287/justaminutepayroll">
+                <i class="fa fa-code-fork" aria-hidden="true"></i>
+                Code</a>
+              <a class="nav-item nav-link" href="https://github.com/attila5287/payroll_management_app_assets">
+                <i class="fa fa-file-image-o  mr-2" aria-hidden="true"></i>
+                Graphics</a>             
             </div>
 
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('wall') }}">Wall</a>
-                <a class="nav-item nav-link" href="{{ url_for('addemployee') }}">AddEmployee</a>
-                <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-                <a class="nav-item nav-link" href="{{ url_for('addcompany') }}">AddCompany</a>
-                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
-                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-item nav-link" href="{{ url_for('wall') }}">
+                  <i class="fa fa-cubes icon-rotate-90" aria-hidden="true"></i>
+                  Wall</a>
+                <a class="nav-item nav-link" href="{{ url_for('home') }}">
+                  <i class="fa fa-home mr-2" aria-hidden="true"></i>Home</a>
+                <a class="nav-item nav-link" href="{{ url_for('account') }}">
+                    <i class="fa fa-key mr-2" aria-hidden="true"></i>Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">
+                  <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</a>
                 {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">
+                  <i class="fa fa-user-circle mr-2" aria-hidden="true"></i>
+                  Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">
+                  <i class="fa fa-pencil mr-2" aria-hidden="true"></i>
+                  Register</a>
               {% endif %}
             </div>
           </div>
