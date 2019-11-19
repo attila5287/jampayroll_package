@@ -1,1 +1,1 @@
-FLASK_APP=jampayroll/app.py flask run
+FLASK_APP= run.py flask run

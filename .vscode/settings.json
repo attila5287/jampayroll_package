@@ -1,3 +1,8 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "C:\\Users\\Front-3\\Anaconda3\\python.exe"
+=======
+    "python.pythonPath": "C:\\Anaconda3\\envs\\jampayroll_env\\python.exe",
+    "python.linting.enabled": true
+>>>>>>> 30994ad4261fa362ffff690d17446a921b72d529
 }

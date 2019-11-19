@@ -1,39 +1,62 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, IntegerField, TextAreaField, RadioField, SelectField, DecimalField, Label 
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from jampayroll.models import User, Employee, Employe3, Unique
+from jampayroll.models import (User, Post, Employee, Unique, Company,)
+from jampayroll import app, db
 
+<<<<<<< HEAD
 class Form2SQL(FlaskForm):
    def __init__(self, firstName="Attila", middleName="", lastName="Turkoz", companyName="JAM", manag3r = ''):
+=======
+class CompanyForm(FlaskForm):
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
+   
+class EmployeeForm(FlaskForm):
+   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila') 
+   middleName = StringField('middle name', default = '') 
+   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz') 
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
+   allowance = IntegerField('allowance', default=2) 
+   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00) 
+   tag = ''
+
+   def __rpr__(self):
+>>>>>>> 30994ad4261fa362ffff690d17446a921b72d529
       pass
-      self.firstName =  firstName
-      self.middleName = middleName
-      self.lastName = lastName
-      self.concat_input = ''
-      self.manag3r = manag3r   
-      return None
-      
-   def concat_input_as_tag(self):
+      print('test EmployeeForm')
+
+   def generate_tag(self):
       pass
+<<<<<<< HEAD
       if self.middleName == '':
+=======
+      if self.middleName.data != '':
+>>>>>>> 30994ad4261fa362ffff690d17446a921b72d529
          pass
-         concat_input = str(self.firstName + self.middleName + self.lastName)
+         self.tag = str(self.firstName.data + self.middleName.data + self.lastName.data)
       else:
          pass
-         concat_input = str(self.firstName + self.lastName)
-      return concat_input
+         self.tag = str(self.firstName.data + self.lastName.data)   
 
-class EmployeeForm(FlaskForm):
-   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila')
-   middleName = StringField('middle name', default = 'Selcuk')
-   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz')
-   companyName = StringField('company',validators=[DataRequired()], default = 'JAM')
-   allowance = IntegerField('allowance', default=2) 
-   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00)
-   
-   def __rpr__(self):
+   def validate_uniqe(self, tag):
       pass
-      print('test add employee')
+      duplicate = Unique.query.filter_by(tag=self.tag).first()
+      if duplicate:
+         raise ValidationError('Duplicate record')
+
+   def validate_uniq3(self, t4g=str(tag)):
+      pass
+      print(Unique)
+      duplicate = Unique.query.filter_by(tag=t4g).first()
+      print(duplicate)
+      
+      if duplicate:
+         print('method true dup')
+         return True
+      else:
+         pass
+         print('method else ')
+         return False
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -63,63 +86,62 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-# ===================== IMPLEMENT JAMPAYROLL BELOW =======================
 class WeeklyHours(FlaskForm):
    pass
    hh_beg_01 = IntegerField(default = '09')
    mm_beg_01 = IntegerField(default = '00')
    ap_beg_01 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_01 = IntegerField(default = "09")
-   mm_fin_01 = IntegerField(default = "00") 
+   hh_fin_01 = IntegerField(default = '09')
+   mm_fin_01 = IntegerField(default = '00') 
    ap_fin_01 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_02 = IntegerField(default = '09')
    mm_beg_02 = IntegerField(default = '00')
    ap_beg_02 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_02 = IntegerField(default = "09")
-   mm_fin_02 = IntegerField(default = "00") 
+   hh_fin_02 = IntegerField(default = '09')
+   mm_fin_02 = IntegerField(default = '00') 
    ap_fin_02 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_03 = IntegerField(default = '09')
    mm_beg_03 = IntegerField(default = '00')
    ap_beg_03 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_03 = IntegerField(default = "09")
-   mm_fin_03 = IntegerField(default = "00") 
+   hh_fin_03 = IntegerField(default = '09')
+   mm_fin_03 = IntegerField(default = '00') 
    ap_fin_03 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_03 = IntegerField(default = '09')
    mm_beg_03 = IntegerField(default = '00')
    ap_beg_03 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_03 = IntegerField(default = "09")
-   mm_fin_03 = IntegerField(default = "00") 
+   hh_fin_03 = IntegerField(default = '09')
+   mm_fin_03 = IntegerField(default = '00') 
    ap_fin_03 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_04 = IntegerField(default = '09')
    mm_beg_04 = IntegerField(default = '00')
    ap_beg_04 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_04 = IntegerField(default = "09")
-   mm_fin_04 = IntegerField(default = "00") 
+   hh_fin_04 = IntegerField(default = '09')
+   mm_fin_04 = IntegerField(default = '00') 
    ap_fin_04 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_05 = IntegerField(default = '09')
    mm_beg_05 = IntegerField(default = '00')
    ap_beg_05 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_05 = IntegerField(default = "09")
-   mm_fin_05 = IntegerField(default = "00") 
+   hh_fin_05 = IntegerField(default = '09')
+   mm_fin_05 = IntegerField(default = '00') 
    ap_fin_05 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
 
    hh_beg_06 = IntegerField(default = '09')
    mm_beg_06 = IntegerField(default = '00')
    ap_beg_06 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_06 = IntegerField(default = "09")
-   mm_fin_06 = IntegerField(default = "00") 
+   hh_fin_06 = IntegerField(default = '09')
+   mm_fin_06 = IntegerField(default = '00') 
    ap_fin_06 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
    
    hh_beg_07 = IntegerField(default = '09')
    mm_beg_07 = IntegerField(default = '00')
    ap_beg_07 = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_fin_07 = IntegerField(default = "09")
-   mm_fin_07 = IntegerField(default = "00") 
+   hh_fin_07 = IntegerField(default = '09')
+   mm_fin_07 = IntegerField(default = '00') 
    ap_fin_07 = SelectField(choices= [('0', 'a'), ('12', 'p' )])
    def __rpr__(self):
       pass
@@ -205,8 +227,8 @@ class DailyHours(FlaskForm):
    hh_in = IntegerField(default = '10')
    mm_in = IntegerField(default = '00')
    ampm_in = SelectField(choices = [('0', 'a'), ('12', 'p' )])
-   hh_out = IntegerField(default = "09")
-   mm_out = IntegerField(default = "00") 
+   hh_out = IntegerField(default = '09')
+   mm_out = IntegerField(default = '00') 
    ampm_out = SelectField(choices=[('12', 'p'), ('0', 'a')])
    subm1t = SubmitField('S3ND')
 
@@ -233,3 +255,25 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+    
+class Form2SQL(FlaskForm):
+   def __init__(
+      self, firstName='Attila', middleName='Selcuk', lastName='Turkoz', companyName='JAM', manag3r = 'Guest'
+   ):
+      pass
+      self.firstName =  firstName
+      self.middleName = middleName
+      self.lastName = lastName
+      self.concat_input = ''
+      self.manag3r = manag3r
+      return None
+   
+   def concat_input_chk_unq(self):
+      pass
+      if self.middleName == None:
+         pass
+         self.concat_input = str(self.firstName + self.middleName + self.lastName)
+      else:
+         pass
+         self.concat_input = str(self.firstName + self.lastName)
+    
