@@ -4,8 +4,19 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from jampayroll.models import (User, Post, Employee, Unique, Company,)
 from jampayroll import app, db
 
-class Form2SQL(FlaskForm):
-   def __init__(self, firstName="Attila", middleName="", lastName="Turkoz", companyName="JAM", manag3r = ''):
+class CompanyForm(FlaskForm):
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
+   
+class EmployeeForm(FlaskForm):
+   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila') 
+   middleName = StringField('middle name', default = '') 
+   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz') 
+   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
+   allowance = IntegerField('allowance', default=2) 
+   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00) 
+   tag = ''
+
+   def __rpr__(self):
       pass
       print('test EmployeeForm')
 
@@ -24,7 +35,19 @@ class Form2SQL(FlaskForm):
       if duplicate:
          raise ValidationError('Duplicate record')
 
-
+   def validate_uniq3(self, t4g=str(tag)):
+      pass
+      print(Unique)
+      duplicate = Unique.query.filter_by(tag=t4g).first()
+      print(duplicate)
+      
+      if duplicate:
+         print('method true dup')
+         return True
+      else:
+         pass
+         print('method else ')
+         return False
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
