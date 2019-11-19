@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from jampayroll.models import User, Employee, Employe3, Unique
 
 class Form2SQL(FlaskForm):
-   def __init__(self, firstName="Attila", middleName="Selcuk", lastName="Turkoz", companyName="JAM", manag3r = ''):
+   def __init__(self, firstName="Attila", middleName="", lastName="Turkoz", companyName="JAM", manag3r = ''):
       pass
       self.firstName =  firstName
       self.middleName = middleName
@@ -15,7 +15,7 @@ class Form2SQL(FlaskForm):
       
    def concat_input_as_tag(self):
       pass
-      if self.middleName == None:
+      if self.middleName == '':
          pass
          concat_input = str(self.firstName + self.middleName + self.lastName)
       else:

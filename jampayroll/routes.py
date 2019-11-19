@@ -18,7 +18,7 @@ posts = [
         'content': 'Second post content',
         'date_posted': 'April 21, 2018'
     }
-]
+    ]
 
 @app.before_first_request
 def setup():
@@ -27,7 +27,7 @@ def setup():
     # db.drop_all()
 
     # only to initiate local db not req'd for actual app on heroku
-    # db.create_all()
+    db.create_all()
 
 @app.route("/")
 @app.route("/addemployee", methods=["GET", "POST"]) 
@@ -43,9 +43,17 @@ def addemployee():
             )
         
         concat_input = unique_check.concat_input_as_tag()
+        print(concat_input)
         _duplicate_ = Unique.query.filter_by(tag= concat_input).first()
-        if _duplicate_:
+        print(_duplicate_)
+        
+        if _duplicate_ == None:
             pass
+            Unique2DB = Unique(
+                tag = concat_input,
+                manag3r = current_user,
+            )
+            db.session.add(Unique2DB)
             employee_to_database = Employe3(
             firstName = request.form["firstName"],
             middleName = request.form["middleName"],
@@ -56,6 +64,7 @@ def addemployee():
             manager = current_user, 
             )
             # database create entry
+            
             db.session.add(employee_to_database)
             db.session.commit()
             flash('Employee added to database', 'success')
