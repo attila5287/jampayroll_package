@@ -24,19 +24,7 @@ class Form2SQL(FlaskForm):
       if duplicate:
          raise ValidationError('Duplicate record')
 
-   def validate_uniq3(self, t4g=str(tag)):
-      pass
-      print(Unique)
-      duplicate = Unique.query.filter_by(tag=t4g).first()
-      print(duplicate)
-      
-      if duplicate:
-         print('method true dup')
-         return True
-      else:
-         pass
-         print('method else ')
-         return False
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
