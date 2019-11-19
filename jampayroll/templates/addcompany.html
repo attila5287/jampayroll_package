@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container-fluid p-3 m-2">
+    <div class="row">
+        
+        <div class="col-sm-7">
+            <div class="card text-light bg-dark border-light">
+                <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/wall_employee_add.ico" alt="Card image" style="width:100%">
+                <div class="card-body text-center" style="font-family: monospace;">
+                    <form method="POST" action="/addcompany" role="form" name="form">
+                        <div class="row">
+                            {% for field in CompanyForm %}
+                            <div class="col-sm-1">
+                                
+                            </div>
+                            <div class="col-sm-4">
+                                {{ field.label }}
+                            </div>
+                            <div class="col-sm-7">
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="container-fluid mt-4">
+                                    <button type="submit" class="btn btn-danger btn-lg btn-block border-danger ">add company!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+{% endblock content %}
