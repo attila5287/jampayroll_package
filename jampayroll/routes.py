@@ -38,7 +38,7 @@ posts = [
 def setup():
     pass
     # Drops all data, dont forget to register again if testing user-only features
-    db.drop_all()
+    # db.drop_all()
     # Creates all tables, required if a new db-model to be tested
     db.create_all()
 
