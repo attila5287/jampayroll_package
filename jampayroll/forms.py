@@ -4,34 +4,14 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from jampayroll.models import (User, Post, Employee, Unique, Company,)
 from jampayroll import app, db
 
-<<<<<<< HEAD
 class Form2SQL(FlaskForm):
    def __init__(self, firstName="Attila", middleName="", lastName="Turkoz", companyName="JAM", manag3r = ''):
-=======
-class CompanyForm(FlaskForm):
-   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
-   
-class EmployeeForm(FlaskForm):
-   firstName = StringField('first name',validators=[DataRequired()], default = 'Attila') 
-   middleName = StringField('middle name', default = '') 
-   lastName = StringField('last name',validators=[DataRequired()], default = 'Turkoz') 
-   companyName = StringField('company',validators=[DataRequired()], default = 'JAM') 
-   allowance = IntegerField('allowance', default=2) 
-   hourlyRate = DecimalField('hourly rate', validators=[DataRequired()], default=44.00) 
-   tag = ''
-
-   def __rpr__(self):
->>>>>>> 30994ad4261fa362ffff690d17446a921b72d529
       pass
       print('test EmployeeForm')
 
    def generate_tag(self):
       pass
-<<<<<<< HEAD
-      if self.middleName == '':
-=======
       if self.middleName.data != '':
->>>>>>> 30994ad4261fa362ffff690d17446a921b72d529
          pass
          self.tag = str(self.firstName.data + self.middleName.data + self.lastName.data)
       else:
