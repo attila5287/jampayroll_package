@@ -19,7 +19,8 @@ from jampayroll.models import (
     Post, 
     Employee, 
     Unique,
-    Company
+    Company,
+    Category,
     )
 from jampayroll.Pay_stub import (
     Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
@@ -64,6 +65,7 @@ def login():
 
 
 @app.route("/wall", methods = ["GET", "POST"]) 
+# @login_required
 def wall():
     pass
     if current_user.is_authenticated:
@@ -81,9 +83,10 @@ def wall():
             WallPosts = posts
             )
     else:
+        flash('Please login to enjoy all Wall features!')
         return redirect('login')
 
-@app.route('/addcompany', methods = ["POST"])
+@app.route('/addcompany', methods = ["GET","POST"])
 def addcompany():
     pass
     FormsFilled = CompanyForm(obj = request.form)
@@ -106,7 +109,7 @@ def addcompany():
         flash('Duplicate record, please review info and try again')
         redirect(url_for('wall'))
 
-@app.route("/addemployee", methods=["POST"]) 
+@app.route("/addemployee", methods=["GET","POST"]) 
 def addemployee():
     pass
     # Forms2fill.validate_uniq3()
@@ -143,7 +146,7 @@ def addemployee():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('wall'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -200,20 +203,7 @@ def intro():
 @app.route("/send", methods=["GET", "POST"]) 
 def send():
     if request.method == "POST":
-        
-        # employee = Employee(
-        #     firstName = request.form["firstName"],
-        #     middleName = request.form["middleName"],
-        #     lastName=request.form["lastName"],
-        #     companyName = request.form["companyName"],
-        #     allowance = request.form["allowance"],
-        #     hourlyRate = request.form["hourlyRate"],
-        #     hoursWorked=request.form["hoursWorked"]
-        #     )
-        # #  database create entry
-        # # db.session.add(employee)
-        # db.session.commit()
-
+        pass
         generated_paystub = ModGeneratedPayStubFrom(
             firstName = request.form["firstName"],
             middleName = request.form["middleName"],

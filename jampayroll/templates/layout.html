@@ -21,7 +21,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
-          <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/navBarIcon_jam_knotty.ico" width="96" height="36">
+          <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/navBarIcon_jam_knottyy.ico" width="96" height="36">
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{ url_for('intro') }}">
@@ -32,8 +32,6 @@
                 PayStub</a>
               <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">
                 <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
-              <a class="nav-item nav-link" href="{{ url_for('about') }}">
-                <i class="fa fa-question-circle  mr-2" aria-hidden="true"></i>About</a>
               <a class="nav-item nav-link" href="https://github.com/attila5287/justaminutepayroll">
                 <i class="fa fa-code-fork" aria-hidden="true"></i>
                 Code</a>
@@ -41,13 +39,24 @@
                 <i class="fa fa-file-image-o  mr-2" aria-hidden="true"></i>
                 Graphics</a>             
             </div>
-
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('wall') }}">
-                  <i class="fa fa-cubes" aria-hidden="true"></i>
-                  Wall</a>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Wall</a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                    <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Wall</a>
+                    <a class="dropdown-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                    <i class="fa fa-vcard mr-2" aria-hidden="true"></i>Add Employee</a>
+                    <a class="dropdown-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                    <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Add Company</a>       
+                  </div>
+                </li>
+                <a class="nav-item nav-link" href="{{ url_for('new_post') }}">
+                  <i class="fa fa-check-square-o mr-2" aria-hidden="true"></i>
+                  New Post</a>
                 <a class="nav-item nav-link" href="{{ url_for('home') }}">
                   <i class="fa fa-home mr-2" aria-hidden="true"></i>Home</a>
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">
@@ -82,23 +91,40 @@
           {% block content %}
           {% endblock %}
         </div>
-        <div class="col-md-3 mt-3">
-          <div class="content-section bg-dark" style="align-content: center;">
-          <div class="text-center">
-              <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_side_features_brushedFramed_transparent.ico" width="200" height="90">
+        <div class="col-sm-3 mt-3">
+          <div class="container-fluid">
+            <div class="nav-flex-column">
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('send') }}">
+                    <i class="fa fa-print mr-2" aria-hidden="true"></i>
+                    PayStub</a>
+                  <a class="nav-item nav-link text-secondary" href="{{ url_for('timesheet') }}">
+                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                  <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Wall</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                <i class="fa fa-vcard mr-2" aria-hidden="true"></i>Add Employee</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
+                <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Add Company</a>                                       
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('new_post') }}">
+                  <i class="fa fa-check-square-o mr-2" aria-hidden="true"></i>
+                  New Post</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('home') }}">
+                  <i class="fa fa-home mr-2" aria-hidden="true"></i>Home</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('account') }}">
+                    <i class="fa fa-key mr-2" aria-hidden="true"></i>Account</a>
+                <a class="nav-item nav-link text-secondary" href="{{ url_for('logout') }}">
+                  <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</a>
+                {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('send') }}">
+                    <i class="fa fa-print mr-2" aria-hidden="true"></i>
+                    PayStub</a>
+                  <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">
+                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
+              {% endif %}
+            </div>
           </div>
-
-            <p class='text-muted'>
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Calculate Hours</li>
-                <li class="list-group-item list-group-item-light">Print Out Pay Stub</li>
-                <li class="list-group-item list-group-item-light">Create Free Profile *</li>
-                <li class="list-group-item list-group-item-light">*Record Employee Info </li>
-                <li class="list-group-item list-group-item-light">*Read & Report Data</li>
-                <li class="list-group-item list-group-item-light">*Dashboard Visuals </li>
-              </ul>
-            </p>
-          </div>
+        </div>
         </div>
       </div>
       
@@ -145,7 +171,6 @@
     </footer>
     
     </main>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
