@@ -69,6 +69,8 @@ def login():
 def wall():
     pass
     if current_user.is_authenticated:
+        pass
+        print(current_user.username)
         UserAllEmployees = Employee.query.filter_by(user_id=current_user.id)
         UserAllCompanies = Company.query.filter_by(user_id=current_user.id)
         EmployeeF0rm = EmployeeForm()
