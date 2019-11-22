@@ -12,7 +12,8 @@ from jampayroll.forms import (
     EmployeeForm, 
     CompanyForm, 
     PostForm, 
-    Form2SQL
+    Form2SQL,
+    TaskForm, 
     )
 from jampayroll.models import (
     User, 
@@ -21,6 +22,7 @@ from jampayroll.models import (
     Unique,
     Company,
     Category,
+    Task,
     )
 from jampayroll.Pay_stub import (
     Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
@@ -159,6 +161,23 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+@app.route("/task/new", methods=['GET', 'POST'])
+@login_required
+def new_task():
+    form = TaskForm()
+    if form.validate_on_submit():
+        task = Task(title=form.title.data, content=form.content.data, manag5r=current_user)
+        db.session.add(task)
+        db.session.commit()
+        flash('Task created!', 'warning')
+        return redirect(url_for('home'))
+    return render_template(
+        'create_task.html',
+        title='New Task', 
+        form=form, 
+        legend='New Post',
+    )
+
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -174,6 +193,7 @@ def new_post():
         title='New Post', 
         form=form, legend='New Post',
     )
+
 
 @app.route('/timesheet', methods = ['POST', 'GET'])
 def timesheet():

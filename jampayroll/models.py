@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     employees = db.relationship('Employee', backref='manager', lazy=True)
     tags = db.relationship('Unique', backref='manag3r', lazy=True)
     companies = db.relationship('Company', backref='man4ger', lazy=True)
+    tasks = db.relationship('Task', backref='manag5r', lazy=True)
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
@@ -26,12 +27,10 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    category = db.relationship('Category', backref=db.backref('posts', lazy=True))
-
+    # category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    # category = db.relationship('Category', backref=db.backref('posts', lazy=True))
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-
 # ===================================
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,7 +38,18 @@ class Category(db.Model):
 
     def __repr__(self):
         return '<Category %r>' % self.name
+# ===================================
+class Task(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    # category = db.relationship('Category', backref=db.backref('tasks', lazy=True))
 
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
 # ==================== JAMPAYROLL : employee BELOW ==================
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -13,12 +13,17 @@ from jampayroll.models import (
     Employee,
     Unique,
     Company,
-    Category
+    Category,
+    Task,
 )
 from jampayroll import (
     app, db
 )
 
+class TaskForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Task')
 
 class CompanyForm(FlaskForm):
     companyName = StringField('company', validators=[
