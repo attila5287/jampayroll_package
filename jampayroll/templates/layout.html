@@ -17,6 +17,12 @@
     <link rel="icon" type="image/x-icon" class="favicon" href="
     https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_favIcon_png256_jframed.png
     ">
+    <style>
+      a{
+        font-family: monospace;
+        font-size-adjust: inherit;
+      }
+    </style>
   </head>
 
   <body>
@@ -58,24 +64,20 @@
                 
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    User Actions</a>
+                    <i class="fa fa-user-plus mx-2" aria-hidden="true"></i>User Actions</a>
+                    </button>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
                     <a class="dropdown-item" href="{{ url_for('wall') }}">
                         <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Wall</a>
-
                     <a class="dropdown-item" href="{{ url_for('wall') }}">
                         <i class="fa fa-vcard mx-2" aria-hidden="true"></i>Add Employee</a>
-
                     <a class="dropdown-item" href="{{ url_for('wall') }}">
                         <i class="fa fa-cubes mx-2" aria-hidden="true"></i>Add Company</a>
                     <a class="dropdown-item" href="{{ url_for('new_post') }}">
                       <i class="fa fa-check-square-o mx-2" aria-hidden="true"></i>
                       New Post</a>
-
                     <a class="dropdown-item" href="{{ url_for('account') }}">
                       <i class="fa fa-key mr-2" aria-hidden="true"></i>Account</a>
-                      
                     <a class="dropdown-item" href="{{ url_for('logout') }}">
                       <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</a>
                   </div>
@@ -83,7 +85,6 @@
               </ul>
             </div>
           </nav>
-      
     </header>
 
     <main role="main" class="container">
@@ -102,53 +103,66 @@
           {% endblock %}
         </div>
 
-        <div class="col-sm-3 mt-3">
-          <div class="nav-flex-column bg-dark text-secondary" style="width: min-content;">
-                        <a class="navbar-brand mx-2" href="/wall">
-              <img
+        <div class="col-sm-3 bg-dark">
+        <div class="container-fluid my-2 p-2">
+          <div class="nav-flex-column" style="width: fit-content; height:max-content;">
+            <a class="navbar-brand m-2" href="/home">
+              <img 
                 src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_sideBarIcon_features_wall.ico"
-                width="180" height="60"></a>
+                width="224" height="72"></a>
             {% if current_user.is_authenticated %}
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('send') }}">
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('send') }}">
               <i class="fa fa-print mr-2" aria-hidden="true"></i>PayStub</a>
-            <div class="nav-divider secondary"></div>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('timesheet') }}">
+              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('timesheet') }}">
               <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
-              <i class="fa fa-cubes mr-2" aria-hidden="true"></i>Wall</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
-              <i class="fa fa-vcard ml-4 mr-2" aria-hidden="true"></i>Add Employee</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('wall') }}">
-              <i class="fa fa-cubes ml-4 mr-2" aria-hidden="true"></i>Add Company</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('new_post') }}">
-              <i class="fa fa-check-square-o mr-2" aria-hidden="true"></i>New Post</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('home') }}">
-              <i class="fa fa-home mr-2" aria-hidden="true"></i>Home</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('account') }}">
-              <i class="fa fa-key mr-2" aria-hidden="true"></i>Account</a>
-            <a class="nav-item nav-link text-secondary" href="{{ url_for('logout') }}">
-              <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</a>
+              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('new_post') }}">
+                  <i class="fa fa-paper-plane mr-2" aria-hidden="true"></i>New Post</a>
+              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2 dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-cubes mx-2" aria-hidden="true"></i>Wall
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="{{ url_for('wall') }}">
+                      <i class="fa fa-id-card-o mx-2" aria-hidden="true"></i>Add Employee</a>
+                  <a class="dropdown-item" href="{{ url_for('wall') }}">
+                      <i class="fa fa-briefcase mx-2" aria-hidden="true"></i>Add Company</a>
+                  <a class="dropdown-item" href="{{ url_for('new_post') }}">
+                </div>
+              </a>
+              <div class="row">
+                <div class="col-xs-3">
+                  <a class="nav-item nav-link text-light mb-2" href="{{ url_for('home') }}">
+                  <i class="fa fa-home" aria-hidden="true"></i>Home</a>
+                </div>
+                <div class="col-xs-3">
+                  <a class="nav-item nav-link text-light mb-2" href="{{ url_for('account') }}">
+                  <i class="fa fa-key" aria-hidden="true"></i>Account</a>
+                </div>
+                <div class="col-xs-3">
+                  <a class="nav-item nav-link text-light mb-2" href="{{ url_for('logout') }}">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                </div>
+              </div>
             {% else %}
-            <a class="nav-item nav-link" href="{{ url_for('send') }}">
-              <i class="fa fa-print mr-2" aria-hidden="true"></i>
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('send') }}">
+              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" aria-hidden="true"></i>
               PayStub</a>
-            <a class="nav-item nav-link" href="{{ url_for('timesheet') }}">
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('timesheet') }}">
               <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
             {% endif %}
           </div>
         </div>
+        </div>
 
       </div>
 
+      <footer class="container">
       <!-- FOOTER -->
-      <footer class="pt-2 my-md-5 pt-md-2 border-top">
         <div class="row">
-          <div class="col-12 col-md">
+          <div class="col-sm-2">
             <img class="mb-2"
               src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_upperleft_png512_brushedRedBlack.png"
               alt="" width="128" height="128">
           </div>
-          <div class="col-6 col-md">
+          <div class="col-sm-2">
             <h5>Back End</h5>
             <ul class="list-unstyled text-small">
               <li><a class="text-muted">Python App via Heroku</a></li>
@@ -157,7 +171,7 @@
               <li><a class="text-muted"></a>SQL Alchemy</li>
             </ul>
           </div>
-          <div class="col-6 col-md">
+          <div class="col-sm-2">
             <h5>Front End</h5>
             <ul class="list-unstyled text-small">
               <li><a class="text-muted">BootStrap</a></li>
@@ -166,7 +180,7 @@
               <li><a class="text-muted">HTML</a></li>
             </ul>
           </div>
-          <div class="col-6 col-md">
+          <div class="col-sm-2">
             <h5>Full Stack: CRUD</h5>
             <ul class="list-unstyled text-small">
               <li><a class="text-muted">Create</a></li>
@@ -176,8 +190,6 @@
             </ul>
           </div>
         </div>
-      </footer>
-      <footer class="container">
         <p class="float-right">
           About Developer: <a href="aboutdev/attila">@attila5287</a>
         </p>
