@@ -24,11 +24,11 @@ class TaskForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Task')
-
+    is_important = BooleanField('Important?')
+    
 class CompanyForm(FlaskForm):
     companyName = StringField('company', validators=[
                               DataRequired()], default='JAM')
-
 
 class EmployeeForm(FlaskForm):
     firstName = StringField('first name', validators=[
@@ -77,7 +77,6 @@ class EmployeeForm(FlaskForm):
             print('method else ')
             return False
 
-
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -101,14 +100,12 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(
                 'That email is taken. Please choose a different one.')
 
-
 class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
-
 
 class WeeklyHours(FlaskForm):
     pass
@@ -247,8 +244,7 @@ class WeeklyHours(FlaskForm):
         _list = self.calc_daily_totals()
         _sum = sum(_list)
         return float(_sum)
-
-
+    
 class DailyHours(FlaskForm):
     pass
     hh_in = IntegerField(default='10')
@@ -277,14 +273,10 @@ class DailyHours(FlaskForm):
         days = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
         return days
 
-# form to create posts
-
-
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
-
 
 class Form2SQL(FlaskForm):
     def __init__(

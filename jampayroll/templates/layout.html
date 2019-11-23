@@ -113,11 +113,19 @@
             {% if current_user.is_authenticated %}
             <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('send') }}">
               <i class="fa fa-print mr-2" aria-hidden="true"></i>PayStub</a>
-              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('timesheet') }}">
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('timesheet') }}">
               <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
-              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('new_post') }}">
+
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('new_task') }}">
+                <i class="fa fa-try mr-2" aria-hidden="true"></i>New Task</a>
+
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('new_task') }}">
+                <i class="fa fa-trademark mr-2" aria-hidden="true"></i>Task Master</a>
+
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('new_post') }}">
                   <i class="fa fa-paper-plane mr-2" aria-hidden="true"></i>New Post</a>
-              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2 dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2 dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-cubes mx-2" aria-hidden="true"></i>Wall
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="{{ url_for('wall') }}">
