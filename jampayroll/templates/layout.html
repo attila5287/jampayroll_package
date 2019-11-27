@@ -106,11 +106,10 @@
           {% block content %}
           {% endblock %}
         </div>
-
         <div class="col-sm-3">
         <div class="container-fluid my-2 p-2">
           <div class="nav-flex-column text-center" style="width: fit-content; height:max-content;">
-              <img 
+            <img 
                 src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_nodeMenu_red_on_white.ico"
                 class="card-img-top mb-2">
             {% if current_user.is_authenticated %}
@@ -156,18 +155,21 @@
             </div>
             {% else %}
             <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('send') }}">
-              <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" aria-hidden="true"></i>
+                <i class="fa fa-print" aria-hidden="true"></i>
               PayStub</a>
             <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('timesheet') }}">
               <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Timesheet</a>
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('register') }}">
+              <i class="fa fa-user-times mr-2" aria-hidden="true"></i>Register</a>
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light mb-2" href="{{ url_for('login') }}">
+              <i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Login</a>                   
             {% endif %}
-            
               <img  class="card-img-top mb-2" 
                 src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam_sideBarIcon_menu_bottom.ico"
                 >
+              </div>
+          </div>
         </div>
-        </div>
-
       </div>
 
       <footer class="container">

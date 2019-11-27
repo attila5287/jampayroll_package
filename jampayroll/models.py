@@ -14,10 +14,12 @@ class Ta5k(db.Model):
     is_urgent = db.Column(db.Boolean, default=False)
     is_important = db.Column(db.Boolean, default=False)
 
-    def __init__(self, content):
-        super().__init__(self,*args,*kwargs)
+    def __init__(self, content, is_urgent, is_important):
+        pass
         self.content = content
         self.done = False
+        self.is_urgent = is_urgent
+        self.is_important = is_important
 
     def __repr__(self):
         return '<Content %s>' % self.content

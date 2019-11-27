@@ -46,7 +46,7 @@ posts = [
 def setup():
     pass
     # Drops all data, dont forget to register again if testing user-only features
-    db.drop_all()
+    # db.drop_all()
     # Creates all tables, required if a new db-model to be tested
     db.create_all()
 
@@ -61,14 +61,17 @@ def tasks_list():
 @app.route('/task', methods=['POST'])
 def add_task():
     pass
-    content = request.form['content']
-    if not content:
-        return 'Error'
-
-    task = Ta5k(content)
+    task = Ta5k(
+        content = request.form["content"],
+        is_urgent = request.form["is_urgent"],
+        is_important = request.form["is_important"],
+    )
     db.session.add(task)
     db.session.commit()
     return redirect('/')
+
+
+
 
 
 @app.route('/delete/<int:task_id>')

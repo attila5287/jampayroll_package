@@ -25,9 +25,9 @@ from jampayroll import (
 class TaskForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('List Task!')
     is_urgent = BooleanField('Urgent?')
     is_important = BooleanField('Important?')
+    submit = SubmitField('List Task!')
      
 class CompanyForm(FlaskForm):
     companyName = StringField('company', validators=[
