@@ -15,17 +15,20 @@ from jampayroll.models import (
     Company,
     Category,
     Task,
+    Ta5k,
 )
 from jampayroll import (
     app, db
 )
 
+    
 class TaskForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Task')
+    submit = SubmitField('List Task!')
+    is_urgent = BooleanField('Urgent?')
     is_important = BooleanField('Important?')
-    
+     
 class CompanyForm(FlaskForm):
     companyName = StringField('company', validators=[
                               DataRequired()], default='JAM')

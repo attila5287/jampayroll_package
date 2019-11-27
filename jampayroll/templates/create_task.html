@@ -1,43 +1,74 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="content-section">
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">{{ legend }}</legend>
-            <div class="form-group">
-                {{ form.title.label(class="form-control-label") }}
-                {% if form.title.errors %}
-                    {{ form.title(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.title.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+<div class="row">
+    <div class="col-sm-8">
+        <div class="container-fluid m-2 p-2">
+            <div class="row">
+                <div class="col-sm-5">
+                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon.ico" alt="">
+                    <form action="/task" method="post">
+                        <div class="form-group">
+                            {% for field in TaskForm %}
+                                {{ field(class="form-control form-control-lg") }}
+                                <label for="">
+                                        {{ field.label(class="label label-default") }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon_bottom.ico" alt="">                    
+                </div>
+                <div class="col-sm-7">
+                    {% for task in tasks %}
+                    <div class="alert alert-secondary" role="alert">
+                        {% if task.done %}  
+                        <strike>
+                        {% endif %}
+                        {{ task.title }}
+                        {{ task.content }}
+                        {% if task.done %}
+                        </strike>
+                        {% endif %}
+                    <a href="/done/{{ task.id }}">Done</a>
+                    <a href="/delete/{{ task.id }}">Delete</a> 
                     </div>
-                {% else %}
-                    {{ form.title(class="form-control form-control-lg") }}
-                {% endif %}
+                    {% endfor %} 
+                </div>
             </div>
-            <div class="form-group">
-                {{ form.content.label(class="form-control-label") }}
-                {% if form.content.errors %}
-                    {{ form.content(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.content.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.content(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-        </fieldset>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-outline-info") }}
         </div>
-    </form>
+    </div>
+    <div class="col-sm-4">
+        <div class="container-fluid m-2 p-2">
+            <div class="nav-flex-column" style="width: fit-content; height:max-content;">
+                <img class="card-img-top mb-2" 
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico"
+                >
+            
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-danger mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+            <i class="fa fa-bell mr-2" aria-hidden="true">Urgent</i><br>
+            <i class="fa fa-eye mr-2" aria-hidden="true">Important</i>
+            </a>
+
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-warning mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                    <i class="fa fa-bell mr-2" aria-hidden="true">Urgent</i><br>
+                    <i class="fa fa-eye-slash mr-2" aria-hidden="true">Not Important</i>
+            </a>
+            
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-primary mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                    <i class="fa fa-bell-slash mr-2" aria-hidden="true">Less Urgent</i>
+                    <br>
+                    <i class="fa fa-eye mr-2" aria-hidden="true">Important</i>
+            </a>
+            
+            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-info mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                    <i class="fa fa-bell-slash mr-2" aria-hidden="true">Less Urgent</i><br>
+                    <i class="fa fa-eye-slash mr-2" aria-hidden="true">Less Important</i>
+            </a>
+                <img class="card-img-top mb-2"  
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks_bottom.ico"
+                >
+            </div>
+        </div>
+    </div>
 </div>
-
-
 {% endblock content %}

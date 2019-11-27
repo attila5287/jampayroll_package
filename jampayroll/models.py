@@ -6,6 +6,24 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
+class Ta5k(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    done = db.Column(db.Boolean, default=False)
+    is_urgent = db.Column(db.Boolean, default=False)
+    is_important = db.Column(db.Boolean, default=False)
+
+    def __init__(self, content):
+        super().__init__(self,*args,*kwargs)
+        self.content = content
+        self.done = False
+
+    def __repr__(self):
+        return '<Content %s>' % self.content
+
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)

@@ -23,6 +23,7 @@ from jampayroll.models import (
     Company,
     Category,
     Task,
+    Ta5k,
     )
 from jampayroll.Pay_stub import (
     Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
@@ -45,13 +46,81 @@ posts = [
 def setup():
     pass
     # Drops all data, dont forget to register again if testing user-only features
-    # db.drop_all()
+    db.drop_all()
     # Creates all tables, required if a new db-model to be tested
-    # db.create_all()
+    db.create_all()
 
 @app.route('/', methods = ['POST', 'GET'])
+@app.route('/task/create', methods = ['POST', 'GET'])
+def tasks_list():
+    TaskCreateForm = TaskForm()
+    tasks = Ta5k.query.all()
+    return render_template('create_task.html', tasks=tasks, TaskForm = TaskCreateForm)
+
+
+@app.route('/task', methods=['POST'])
+def add_task():
+    pass
+    content = request.form['content']
+    if not content:
+        return 'Error'
+
+    task = Ta5k(content)
+    db.session.add(task)
+    db.session.commit()
+    return redirect('/')
+
+
+@app.route('/delete/<int:task_id>')
+def delete_task(task_id):
+    pass
+    task = Ta5k.query.get(task_id)
+    if not task:
+        return redirect('/')
+
+    db.session.delete(task)
+    db.session.commit()
+    return redirect('/')
+
+
+@app.route('/done/<int:task_id>')
+def resolve_task(task_id):
+    pass
+    task = Ta5k.query.get(task_id)
+
+    if not task:
+        return redirect('/')
+    if task.done:
+        task.done = False
+    else:
+        task.done = True
+
+    db.session.commit()
+    return redirect('/')
+
+@app.route("/task/new", methods=['GET', 'POST'])
+@login_required
+def new_task():
+    pass
+    form = TaskForm()
+    if form.validate_on_submit():
+        task = Task(title=form.title.data, content=form.content.data, manag5r=current_user)
+        db.session.add(task)
+        db.session.commit()
+        flash('Task created!', 'warning')
+        return redirect(url_for('home'))
+    return render_template(
+        'create_task.html',
+        title='New Task', 
+        form=form, 
+        legend='New Post',
+    )
+
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    pass
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -161,23 +230,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route("/task/new", methods=['GET', 'POST'])
-@login_required
-def new_task():
-    form = TaskForm()
-    if form.validate_on_submit():
-        task = Task(title=form.title.data, content=form.content.data, manag5r=current_user)
-        db.session.add(task)
-        db.session.commit()
-        flash('Task created!', 'warning')
-        return redirect(url_for('home'))
-    return render_template(
-        'create_task.html',
-        title='New Task', 
-        form=form, 
-        legend='New Post',
-    )
-
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -193,7 +245,6 @@ def new_post():
         title='New Post', 
         form=form, legend='New Post',
     )
-
 
 @app.route('/timesheet', methods = ['POST', 'GET'])
 def timesheet():
@@ -264,7 +315,6 @@ def about():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
 
 @app.route("/account")
 @login_required
