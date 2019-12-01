@@ -2,42 +2,52 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-8">
-        <div class="container-fluid m-2 p-2">
+        <div class="container-fluid m-1 p-2">
             <div class="row">
                 <div class="col-sm-5">
                     <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon.ico" alt="">
                     <form action="/task" method="post">
-                        <div class="form-group">
-                            {% for field in TaskForm %}
-                                {{ field(class="form-control form-control-lg") }}
+                        {% for field in TaskForm %}
+                            <div class="form-group">
+                                {{ field(class="form-control form-control-md") }}
                                 <label for="">
-                                        {{ field.label(class="label label-default") }}
+                                {{ field.label(class="label label-default") }}
                                 </label>
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
                     </form>
-                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon_bottom.ico" alt="">                    
+                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon_bottom.ico" alt="">         
                 </div>
                 <div class="col-sm-7">
                     {% for task in tasks %}
-                    <div class="alert alert-secondary" role="alert">
-                        {% if task.done %}  
-                        <strike>
-                        {% endif %}
-                        {{ task.title }}
-                        {{ task.content }}
-                        {% if task.done %}
-                        </strike>
-                        {% endif %}
-                    <a href="/done/{{ task.id }}">Done</a>
-                    <a href="/delete/{{ task.id }}">Delete</a> 
+                    <div class="card border-{{task.border_style }} mb-2" style="border-width: medium;">
+                        <div class="card-header">
+                        <b><a>
+                            {% if task.done %}
+                            <strike>
+                            {% endif %}
+                            
+                            {{ task.title }}
+                            
+                            {% if task.done %}
+                            </strike>
+                            {% endif %}
+                        </a></b>
+                            <a class="float-right" href="/done/{{ task.id }}">Done</a>
+                            <a class="float-right mr-2" href="/delete/{{ task.id }}">Delete</a> 
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                            {{ task.content }}
+                            </p>
+                        </div>
                     </div>
-                    {% endfor %} 
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4"> 
         <div class="container-fluid m-2 p-2">
             <div class="nav-flex-column" style="width: fit-content; height:max-content;">
                 <img class="card-img-top mb-2" 

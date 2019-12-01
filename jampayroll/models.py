@@ -9,20 +9,33 @@ def load_user(user_id):
 
 class Ta5k(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text)
     content = db.Column(db.Text)
     done = db.Column(db.Boolean, default=False)
-    is_urgent = db.Column(db.Boolean, default=False)
-    is_important = db.Column(db.Boolean, default=False)
-
-    def __init__(self, content, is_urgent, is_important):
+    is_urgent = db.Column(db.Text, default='0')
+    is_important = db.Column(db.Text, default='0')
+    matrix_zone = db.Column(db.Text, default='00')
+    border_style = db.Column(db.Text, default='info')
+ 
+    def __init__(self, title, content, is_urgent, is_important):
         pass
+        self.title = title
         self.content = content
-        self.done = False
         self.is_urgent = is_urgent
         self.is_important = is_important
-
+        self.done = False
+    
+    def add_matrix_zone(self):
+        pass
+        self.matrix_zone = str(self.is_urgent) + str(self.is_important)
+    
+    def add_task_border(self):
+        pass
+        style_dict = {'11' : 'danger', '10' : 'warning', '01' : 'primary', '00' : 'info'}
+        self.border_style = style_dict[self.matrix_zone]
+    
     def __repr__(self):
-        return '<Content %s>' % self.content
+        return '<Task %s>' % self.title
 
 
 

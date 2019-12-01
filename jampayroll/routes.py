@@ -53,6 +53,7 @@ def setup():
 @app.route('/', methods = ['POST', 'GET'])
 @app.route('/task/create', methods = ['POST', 'GET'])
 def tasks_list():
+    pass
     TaskCreateForm = TaskForm()
     tasks = Ta5k.query.all()
     return render_template('create_task.html', tasks=tasks, TaskForm = TaskCreateForm)
@@ -62,15 +63,17 @@ def tasks_list():
 def add_task():
     pass
     task = Ta5k(
+        title = request.form["title"],
         content = request.form["content"],
-        is_urgent = request.form["is_urgent"],
+        is_urgent = request.form.get('is_urgent'),
         is_important = request.form["is_important"],
-    )
+        )
+    task.add_matrix_zone()
+    task.add_task_border()
+    
     db.session.add(task)
     db.session.commit()
     return redirect('/')
-
-
 
 
 
@@ -79,11 +82,11 @@ def delete_task(task_id):
     pass
     task = Ta5k.query.get(task_id)
     if not task:
-        return redirect('/')
+        return redirect(url_for('tasks_list'))
 
     db.session.delete(task)
     db.session.commit()
-    return redirect('/')
+    return redirect(url_for('tasks_list'))
 
 
 @app.route('/done/<int:task_id>')
@@ -92,14 +95,14 @@ def resolve_task(task_id):
     task = Ta5k.query.get(task_id)
 
     if not task:
-        return redirect('/')
+        return redirect(url_for('tasks_list'))
     if task.done:
         task.done = False
     else:
         task.done = True
 
     db.session.commit()
-    return redirect('/')
+    return redirect(url_for('tasks_list'))
 
 @app.route("/task/new", methods=['GET', 'POST'])
 @login_required
