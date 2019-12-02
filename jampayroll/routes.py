@@ -70,7 +70,7 @@ def add_task():
         )
     task.add_matrix_zone()
     task.add_task_border()
-    
+    flash('Task created!', task.border_style)
     db.session.add(task)
     db.session.commit()
     return redirect('/')

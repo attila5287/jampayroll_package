@@ -5,40 +5,44 @@
         <div class="container-fluid m-1 p-2">
             <div class="row">
                 <div class="col-sm-5">
-                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon.ico" alt="">
-                    <form action="/task" method="post">
-                        {% for field in TaskForm %}
+                    <img class="card-img-top mb-2"
+                        src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon.ico"
+                        alt="">
+                        <form action="/task" method="post">
                             <div class="form-group">
-                                {{ field(class="form-control form-control-md") }}
-                                <label for="">
+                    {% for field in TaskForm %}
+                            {{ field(class="form-control form-control-md") }}
+                            <label for="">
                                 {{ field.label(class="label label-default") }}
-                                </label>
-                            </div>
-                        {% endfor %}
+                            </label>
+                            {% endfor %}
+                        </div>
                     </form>
-                    <img class="card-img-top mb-2" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon_bottom.ico" alt="">         
+                    <img class="card-img-top mb-2"
+                        src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/create_task_hexagon_bottom.ico"
+                        alt="">
                 </div>
                 <div class="col-sm-7">
                     {% for task in tasks %}
                     <div class="card border-{{task.border_style }} mb-2" style="border-width: medium;">
-                        <div class="card-header">
-                        <b><a>
-                            {% if task.done %}
-                            <strike>
-                            {% endif %}
-                            
-                            {{ task.title }}
-                            
-                            {% if task.done %}
-                            </strike>
-                            {% endif %}
-                        </a></b>
-                            <a class="float-right" href="/done/{{ task.id }}">Done</a>
-                            <a class="float-right mr-2" href="/delete/{{ task.id }}">Delete</a> 
+                        <div class="card-header bg-light text-{{task.border_style }} border-{{task.border_style }}" style="border-bottom-width: medium;">
+                            <a>
+                                <strong>
+                                    {% if task.done %}<strike>{% endif %}
+                                        {{ task.title }}
+                                        {% if task.done %}</strike>{% endif %}
+                                </strong>
+                            </a>
+                            <a class="text-primary float-right" href="/done/{{ task.id }}">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i></a>
+
+                            <a class="text-danger float-right mr-2" href="/delete/{{ task.id }}"><i class="fa fa-times"
+                                    aria-hidden="true"></i></a>
+
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                            {{ task.content }}
+                                {{ task.content }}
                             </p>
                         </div>
                     </div>
@@ -47,36 +51,38 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4"> 
+    <div class="col-sm-4">
         <div class="container-fluid m-2 p-2">
             <div class="nav-flex-column" style="width: fit-content; height:max-content;">
-                <img class="card-img-top mb-2" 
-                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico"
-                >
-            
-            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-danger mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
-            <i class="fa fa-bell mr-2" aria-hidden="true">Urgent</i><br>
-            <i class="fa fa-eye mr-2" aria-hidden="true">Important</i>
-            </a>
+                <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico">
 
-            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-warning mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                <a class="nav-item btn btn-large btn-secondary nav-link text-light border-danger mb-2"
+                    href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                    <i class="fa fa-bell mr-2" aria-hidden="true">Urgent</i><br>
+                    <i class="fa fa-eye mr-2" aria-hidden="true">Important</i>
+                </a>
+
+                <a class="nav-item btn btn-large btn-secondary nav-link text-light border-warning mb-2"
+                    href="{{ url_for('tasks_list') }}" style="border-width: medium;">
                     <i class="fa fa-bell mr-2" aria-hidden="true">Urgent</i><br>
                     <i class="fa fa-eye-slash mr-2" aria-hidden="true">Not Important</i>
-            </a>
-            
-            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-primary mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                </a>
+
+                <a class="nav-item btn btn-large btn-secondary nav-link text-light border-primary mb-2"
+                    href="{{ url_for('tasks_list') }}" style="border-width: medium;">
                     <i class="fa fa-bell-slash mr-2" aria-hidden="true">Less Urgent</i>
                     <br>
                     <i class="fa fa-eye mr-2" aria-hidden="true">Important</i>
-            </a>
-            
-            <a class="nav-item btn btn-large btn-secondary nav-link text-light border-info mb-2" href="{{ url_for('tasks_list') }}" style="border-width: medium;">
+                </a>
+
+                <a class="nav-item btn btn-large btn-secondary nav-link text-light border-info mb-2"
+                    href="{{ url_for('tasks_list') }}" style="border-width: medium;">
                     <i class="fa fa-bell-slash mr-2" aria-hidden="true">Less Urgent</i><br>
                     <i class="fa fa-eye-slash mr-2" aria-hidden="true">Less Important</i>
-            </a>
-                <img class="card-img-top mb-2"  
-                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks_bottom.ico"
-                >
+                </a>
+                <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks_bottom.ico">
             </div>
         </div>
     </div>
