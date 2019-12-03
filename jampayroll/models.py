@@ -6,8 +6,7 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-class Ta5k(db.Model): 
+class Ta5k(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
     content = db.Column(db.Text)
@@ -16,6 +15,8 @@ class Ta5k(db.Model):
     is_important = db.Column(db.Text, default='0')
     matrix_zone = db.Column(db.Text, default='00')
     border_style = db.Column(db.Text, default='info')
+    urg_points= db.Column(db.Integer, default=int(36)) 
+    imp_points = db.Column(db.Integer, default=int(36))
  
     def __init__(self, title, content, is_urgent, is_important):
         pass
@@ -34,10 +35,28 @@ class Ta5k(db.Model):
         style_dict = {'11' : 'danger', '10' : 'warning', '01' : 'primary', '00' : 'info'}
         self.border_style = style_dict[self.matrix_zone]
     
+    def add_urgency_points(self):
+        pass
+        urgency_point_dict = {
+            '11' : '96',
+            '10' : '72',
+            '01' : '48',
+            '00' : '36',
+        }
+        self.urg_points = int(urgency_point_dict[self.matrix_zone])
+
+    def add_importance_points(self):
+        pass
+        importance_point_dict = {
+            '11' : '96',
+            '10' : '48',
+            '01' : '72',
+            '00' : '36',
+        }
+        self.imp_points = int(importance_point_dict[self.matrix_zone])        
+
     def __repr__(self):
         return '<Task %s>' % self.title
-
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -83,7 +102,7 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-# ==================== JAMPAYROLL : employee BELOW ==================
+# ====================
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(64))
@@ -96,12 +115,12 @@ class Employee(db.Model):
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
-
+# ====================
 class Unique(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tag = db.Column(db.String(64))
-
+# ====================
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     companyName = db.Column(db.String(64))
@@ -109,6 +128,3 @@ class Company(db.Model):
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
-    
-    
-    

@@ -68,8 +68,16 @@ def add_task():
         is_urgent = request.form.get('is_urgent'),
         is_important = request.form["is_important"],
         )
+    # this will be used to determine all object properties later
     task.add_matrix_zone()
+    # determine border per matrix zone
     task.add_task_border()
+    # add urgency points for task completion per matrix zone
+    task.add_urgency_points()
+    # add importancy points for task completion per matrix zone
+    task.add_importance_points()
+    
+    
     flash('Task created!', task.border_style)
     db.session.add(task)
     db.session.commit()

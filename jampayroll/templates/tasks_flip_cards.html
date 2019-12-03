@@ -1,5 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
+<style>
+     /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: max-content;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+} 
+</style>
 <div class="row">
     <div class="col-sm-8">
         <div class="container-fluid m-1 p-2">
@@ -23,38 +64,44 @@
                         alt="">
                 </div>
                 <div class="col-sm-7">
-                    <img class="card-img-top mb-2"
-                        src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico"
-                        alt="">
                     {% for task in tasks %}
-                    <div class="card border-{task.border_styles}} mb-1" style="border-width: thick;">
-                        <div class="card-header bg-light text-{{ task.border_style }} border-{{task.border_style }}"
-                            style="border-bottom-width: medium;">
-                            <a><strong>
-                                {% if task.done %}<strike>{% endif %}
-                                    {{ task.title }}
-                                {% if task.done %}</strike>{% endif %}
-                            </strong></a>
-                            <a class="text-primary float-right" href="/done/{{ task.id }}">
-                                <i class="fa fa-check-square-o" aria-hidden="true"></i></a>
-                                </span>
-
-                            <a class="text-danger float-right mr-2" href="/delete/{{ task.id }}"><i class="fa fa-times"
-                                    aria-hidden="true"></i></a>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                            <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico" alt="Avatar">
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card border-{task.border_styles}} mb-1" style="border-width: thick;">
+                                    <div class="card-header bg-light text-{{ task.border_style }} border-{{task.border_style }}"
+                                        style="border-bottom-width: medium;">
+                                        <a><strong>
+                                            {% if task.done %}<strike>{% endif %}
+                                                {{ task.title }}
+                                            {% if task.done %}</strike>{% endif %}
+                                        </strong></a>
+                                        <span class="badge badge-{task.border_style }} float-right">
+                                        <a class="text-primary float-right" href="/done/{{ task.id }}">
+                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        </a>
+                                        </span>
+            
+                                        <a class="text-danger float-right mr-2" href="/delete/{{ task.id }}"><i class="fa fa-times"
+                                                aria-hidden="true"></i></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            {{ task.content }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <i class="fa fa-umbrella" aria-hidden="true">{{ task.urg_points }}</i>
-                            <i class="fa fa-map-pin" aria-hidden="true">
-                            {{ task.imp_points }}</i>
-                            <p class="card-text">
-                                {{ task.content }}
-                            </p>
-                        </div>
-                    </div>
+                    </div> 
                     {% endfor %}
-                <img class="card-img-top mb-2"
-                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks_bottom.ico"
-                    alt="">
+
+                    
+
+
                 </div>
             </div>
         </div>
@@ -63,7 +110,7 @@
         <div class="container-fluid m-2 p-2">
             <div class="nav-flex-column" style="width: fit-content; height:max-content;">
                 <img class="card-img-top mb-2"
-                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/list_hexagon_multicol_top.ico">
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/sideBar_jam_tasks.ico">
 
                 <a class="nav-item btn btn-large btn-secondary nav-link text-light border-danger mb-2"
                     href="{{ url_for('tasks_list') }}" style="border-width: medium;">
@@ -95,4 +142,5 @@
         </div>
     </div>
 </div>
+
 {% endblock content %}
