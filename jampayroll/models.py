@@ -6,7 +6,7 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class Ta5k(db.Model):
+class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
     content = db.Column(db.Text)
@@ -17,6 +17,8 @@ class Ta5k(db.Model):
     border_style = db.Column(db.Text, default='info')
     urg_points= db.Column(db.Integer, default=int(36)) 
     imp_points = db.Column(db.Integer, default=int(36))
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
  
     def __init__(self, title, content, is_urgent, is_important):
         pass
@@ -57,7 +59,8 @@ class Ta5k(db.Model):
 
     def __repr__(self):
         return '<Task %s>' % self.title
-
+# ===================================
+# ====================
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -91,18 +94,6 @@ class Category(db.Model):
     def __repr__(self):
         return '<Category %r>' % self.name
 # ===================================
-class Task(db.Model): 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    # category = db.relationship('Category', backref=db.backref('tasks', lazy=True))
-
-    def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
-# ====================
 class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(64))

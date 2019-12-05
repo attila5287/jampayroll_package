@@ -1,0 +1,14 @@
+# package structure tree * 
+
+├───┬run.py
+    ├───┬
+        ├
+        ├
+        ├
+        ├
+        ├
+        └
+
+
+# * before blueprint for errors
+

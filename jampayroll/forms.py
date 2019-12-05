@@ -15,7 +15,6 @@ from jampayroll.models import (
     Company,
     Category,
     Task,
-    Ta5k,
 )
 from jampayroll import (
     app, db
