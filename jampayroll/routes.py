@@ -30,15 +30,6 @@ from jampayroll.Pay_stub import (
 from flask_login import (
     login_user, current_user, logout_user, login_required
 )
-posts = [
-    {
-        'author': 'S Attila Turkoz', 'title': 'Add Intro Home', 'content': 'content', 'date_posted': 'Nov, 18 2019'},
-    {
-        'author': 'S Attila Turkoz', 'title': 'Add Nav Bar Icons', 'content': 'content', 'date_posted': 'Nov, 18 2019'},
-    {
-        'author': 'S Attila Turkoz', 'title': 'Move Tasks SideBar', 'content': 'content', 'date_posted': 'Nov, 18 2019'},
-]
-
 
 @app.before_first_request
 def setup():
@@ -64,6 +55,24 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    pass
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
 # forms to create a task and shows all tasks in different colors and points
 @app.route('/task', methods=['POST', 'GET'])
 def tasks_list():
@@ -81,6 +90,7 @@ def add_task():
         content=request.form["content"],
         is_urgent=request.form.get('is_urgent'),
         is_important=request.form["is_important"],
+        manag5r=current_user,        
     )
     # this will be used to determine all object properties later
     task.add_matrix_zone()
@@ -122,23 +132,6 @@ def resolve_task(task_id):
 
     db.session.commit()
     return redirect(url_for('tasks_list'))
-
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    pass
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
-        else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
 
 # user only> forms for add comp/add employee functions 
 @app.route("/wall", methods=["GET", "POST"])

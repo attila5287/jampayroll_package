@@ -11,8 +11,8 @@ class Task(db.Model):
     title = db.Column(db.Text)
     content = db.Column(db.Text)
     done = db.Column(db.Boolean, default=False)
-    is_urgent = db.Column(db.Text, default='0')
-    is_important = db.Column(db.Text, default='0')
+    is_urgent = db.Column(db.Text, default='n')
+    is_important = db.Column(db.Text, default='n')
     matrix_zone = db.Column(db.Text, default='00')
     border_style = db.Column(db.Text, default='info')
     urg_points= db.Column(db.Integer, default=int(36)) 
@@ -20,14 +20,6 @@ class Task(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
  
-    def __init__(self, title, content, is_urgent, is_important):
-        pass
-        self.title = title
-        self.content = content
-        self.is_urgent = is_urgent
-        self.is_important = is_important
-        self.done = False
-    
     def add_matrix_zone(self):
         pass
         self.matrix_zone = str(self.is_urgent) + str(self.is_important)

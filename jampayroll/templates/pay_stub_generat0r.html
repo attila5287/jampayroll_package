@@ -131,18 +131,7 @@
             </ul>
         </div>
     </nav>
-    <nav>
-        <ul class="nav justify-content-center" style="background-color: indianred">
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">
-                        <i class="fa fa-battery" aria-hidden="true" style="color:rgb(255, 255, 255)">
-                            -   J A M  P A Y R O L L    |    P A Y S T U B  V I E W E R   -
-                        </i>
-                        
-                </a>
-            </li>
-        </ul>
-    </nav>
+
     
     <div class="container">
         <div class="row">
@@ -154,7 +143,7 @@
                     Earnings Statement
                 </h1>
                     Pay Period: {{ Pay_stub.dateStart }} through {{ Pay_stub.dateEnd }}
-                </br> {{ Pay_stub.lastName }}, {{ Pay_stub.firstName }} {{ Pay_stub.middleName }}'s bank account ( . . . 4134): 
+                </br> {{ Pay_stub.lastName }}, {{ Pay_stub.firstName }} {{ Pay_stub.middleName }}'s bank account: 
             </i>
             </div>
             <div class="col-sm-3">
@@ -389,7 +378,7 @@
             </div>
         </div>
     </div>
-
+<!-- 
     <div class="container">
         <div class="row">
             {% for key, value in dict.items() %}
@@ -407,5 +396,6 @@
             {% endfor %}
         </div>
     </div>
+     -->
 </body>
 
