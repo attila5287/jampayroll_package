@@ -14,6 +14,7 @@ from jampayroll.forms import (
     PostForm,
     Form2SQL,
     TaskForm,
+    UpdateAccountForm,
 )
 from jampayroll.models import (
     User,
@@ -30,6 +31,9 @@ from jampayroll.Pay_stub import (
 from flask_login import (
     login_user, current_user, logout_user, login_required
 )
+import secrets
+from PIL import Image
+import os
 
 @app.before_first_request
 def setup():
@@ -38,11 +42,47 @@ def setup():
     # db.drop_all()
     # Creates all tables, required if a new db-model to be tested
     db.create_all()
+# ==================================
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    output_size = (255, 255)
+    image_uploaded = Image.open(form_picture)
+    image_uploaded.thumbnail(output_size)
+    image_uploaded.save(picture_path)
+    return picture_fn
+
+
+
+@app.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file, form=form)
+
+
 
 # register for new user --> Profile picture
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    pass
     if current_user.is_authenticated:
         return redirect(url_for('tasks_list'))
     form = RegistrationForm()
@@ -55,7 +95,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     pass
@@ -63,6 +102,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
+        pass
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
@@ -72,6 +112,25 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
+# altered as wall. home page only shows demo posts 
+@login_required
+@app.route("/home")
+def home():
+    pass
+    if Post.query.first() == None:
+        pass
+        permanent_post = Post(
+            title = 'Page Moved',
+            content = 'use Wall for all Home features',
+            author = current_user,
+        )
+        posts = [
+            permanent_post
+        ]
+    else:
+        pass
+        posts = Post.query.all()
+    return render_template('home.html', posts=posts)
 
 # forms to create a task and shows all tasks in different colors and points
 @app.route('/task', methods=['POST', 'GET'])
@@ -90,8 +149,8 @@ def add_task():
         content=request.form["content"],
         is_urgent=request.form.get('is_urgent'),
         is_important=request.form["is_important"],
-        manag5r=current_user,        
-    )
+        manag5r=current_user,
+        )
     # this will be used to determine all object properties later
     task.add_matrix_zone()
     # determine border per matrix zone
@@ -105,7 +164,6 @@ def add_task():
     db.session.add(task)
     db.session.commit()
     return redirect('/')
-
 
 # delete task --> TODO: archive only
 @app.route('/delete/<int:task_id>')
@@ -135,7 +193,7 @@ def resolve_task(task_id):
 
 # user only> forms for add comp/add employee functions 
 @app.route("/wall", methods=["GET", "POST"])
-# @login_required
+@login_required
 def wall():
     pass
     if current_user.is_authenticated:
@@ -277,7 +335,7 @@ def send():
             hourlyRate=float(request.form["hourlyRate"]),
             hoursWorked=float(request.form["hoursWorked"]),
             payCntYr2Dt=int(request.form["payCntYr2Dt"]),
-            dateStart=request.form["dateStart"],
+            dateStart=request.form["dateStart"], 
             dateEnd=request.form["dateEnd"]
         )
         dict = {
@@ -293,11 +351,6 @@ def send():
 
     return render_template("form.html")
 
-# altered as wall. home page only shows posts 
-@app.route("/home")
-def home():
-    return render_template('home.html', posts=posts)
-
 @app.route("/logout")
 def logout():
     logout_user()
@@ -307,15 +360,6 @@ def logout():
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
-
-
-
-
-# <-- ß £ T A  -->
-@app.route("/account")
-@login_required
-def account():
-    return render_template('account.html', title='Account')
 
 # compact data for developers, only req'd for large comp's with numerous employees
 @app.route("/api/data/json")
@@ -338,3 +382,5 @@ def pals():
         'hoursWorked': hoursWorked
     }]
     return jsonify(ee_data)
+
+

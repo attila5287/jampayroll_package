@@ -53,7 +53,6 @@ class Task(db.Model):
     def __repr__(self):
         return '<Task %s>' % self.title
 # ===================================
-# ====================
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -112,3 +111,4 @@ class Company(db.Model):
 
     def __repr__(self):
         return '<Employee %r %r>' % (self.firstName, self.lastName) 
+
