@@ -117,6 +117,7 @@ def login():
 @app.route("/home")
 def home():
     pass
+
     if Post.query.first() == None:
         pass
         permanent_post = Post(
@@ -130,6 +131,7 @@ def home():
     else:
         pass
         posts = Post.query.all()
+    
     return render_template('home.html', posts=posts)
 
 # forms to create a task and shows all tasks in different colors and points
@@ -196,6 +198,19 @@ def resolve_task(task_id):
 @login_required
 def wall():
     pass
+    if Post.query.first() == None:
+        pass
+        permanent_post = Post(
+            title = 'Welcome to wall!',
+            content = 'Create employee and company record and pull from database for future use',
+            author = current_user,
+        )
+        posts = [
+            permanent_post
+        ]
+    else:
+        pass
+        posts = Post.query.all()
     if current_user.is_authenticated:
         pass
         print(current_user.username)

@@ -59,14 +59,14 @@
     </div>
     </div>
 
-    <div class="col-sm-5">
+    <div class="col-sm-4">
         <img class="card-img-top mb-2"
             src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/task_new.ico"
             alt="">
             <img class="rounded-circle account-img" src="{{ image_file }}">
         
-        <form action="/task/create" method="post">
-            <div class="form-group"> 
+            <form method="POST" action="" enctype="multipart/form-data">
+                <div class="form-group"> 
             {% for field in form %}
             <span class="badge badge-secondary text-light text-center mb-0">
                 <a>
