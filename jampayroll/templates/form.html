@@ -1,118 +1,8 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>form | JAM Payroll</title>
-            <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-        crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>
-            form | JAM payroll
-        </title>
-        <link rel="icon" type="image/x-icon" class="favicon" href="
-        https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/mini_classic_image.png
-        ">
-        <!-- Bootstrap CSS -->
-        <style>
-                i {
-                        font-family:  Tahoma;
-                        /* color: #331dfa; */
-                        font-weight: 400;
-                    }
-                    
-                    div.container {
-                        margin-top: 8px; 
-                        padding: 4px;
-                        border-top-width: 6px ;
-                        border-top-style:  dotted;
-                        border-top-color:  #ddddddab;
-                    }
-                    
-                    li {
-                        list-style: none;
-                        padding: 2px;
-                    }
-                }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-sm navbar-dark p-1" style="background-color: navy">
-                <a class="navbar-brand" href="/">
-                    <div class="alert m-1 p-0 " role="alert">
-                        <i style="color:rgb(255, 255, 255); font-family: cursive;"> mini_payroll </i>
-                        <img src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/mini_classic_icon.ico" width="70" height="65">
-                    </div>
-                </a>
-                <div class="navbar" id="collapsibleNavId">
-                    <ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <h4>
-                                > P4YSTUB
-                                </h4> 
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">
-                                <h4>
-                                    >> FORMS
-                                </h4>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-        </nav>
-        <nav>
-            <ul class="nav justify-content-center" style="background-color: lightgrey">
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">
-                            <i class="fa fa-battery" aria-hidden="true" style="color: navy; font-size: 20px                              ;"> Full-Stack Web App | attila5287 </i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container p-8">
-            <div class="row">
-                <div class="col-sm-2">
-                    <div class="card bg-light border-secondary mb-6">
-                      <img class="card-img-top" src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/jam256PNG.png" alt="logo" width="125" height="125">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary active"> step 1 provide employee payment info</a>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 25%;"
-                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> fill out the forms
-                            </div>
-                        </div>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary">Item</a>                        <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 25%;"
-                                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Description
-                                </div>
-                            </div>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary disabled">Disabled item</a>
-                    </div>                
-                </div>
-
-            </div>
+{% extends "layout.html" %}
+{% block content %}
 
             <div class="row">
-                <div class="col-md-offset-4 col-md-6">
+                <div class="col-sm-6">
                     <form method="POST" action="/send" role="form", name="form">
                         <div class="form-group">
                             <div class="form-group-prepend">
@@ -123,36 +13,43 @@
                         <div class="form-group">
                             <div class="form-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Middle Name</span>
+                            </div>
                             <input type="text" class="form-control" id="inputMiddleName" name="middleName" placeholder="middle name">
                         </div>                  
                         <div class="form-group">
                             <div class="form-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Last Name</span>
+                            </div>
                             <input type="text" class="form-control" id="inputLastName" name="lastName" placeholder="last name">
                         </div>                        
                         <div class="form-group">
                             <div class="form-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Company Name</span>
+                            </div>
                             <input type="text" class="form-control" id="inputCompanyName" name="companyName" placeholder="company name">
                         </div>                                          
                         <div class="form-group">
                             <div class="form-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-lg">Allowance Total</span>
+                            </div>
                             <input type="text" class="form-control" id="inputAllowance" name="allowance" placeholder="check H on w-4">
                         </div>                        
                         <div class="form-group">
                             <div class="form-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Hourly Rate</span>
+                            </div>
                             <input type="text" class="form-control" id="inputHourlyRate" name="hourlyRate" placeholder="dollars per hour">
                         </div>
                         <div class="form-group">
                             <div class="form-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-lg">Hours Worked</span>
+                            </div>
                             <input type="text" class="form-control" id="inputHoursWorked" name="hoursWorked" placeholder="number of hours">
                         </div>
                         <div class="form-group">
                             <div class="form-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-lg">Pay Count Year-To-Date</span>
+                            </div>
                             <input type="text" class="form-control" id="inputPayCountYr2Dt" name="payCntYr2Dt" placeholder="pay count year to date">
                         </div>                        
                         <div class="form-group">
@@ -163,15 +60,15 @@
                             <label for="inputDateEnd">Pay Period End</label>
                             <input type="text" class="form-control" id="inputDateEnd" name="dateEnd" placeholder="second sunday of bi-weekly">
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-lg btn-block border-light">
-                            J A M  a pay stub!
-                        </button>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block border-light">
+                                J A M  a pay stub!
+                            </button>
+                        </div>
                     </form>
                 </div>
+
             </div>
-        </div>
 
-    </body>
 
-</html>
+{% endblock content %}
