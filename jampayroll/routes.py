@@ -15,6 +15,7 @@ from jampayroll.forms import (
     Form2SQL,
     TaskForm,
     UpdateAccountForm,
+    PayStubForm,
 )
 from jampayroll.models import (
     User,
@@ -29,7 +30,7 @@ from jampayroll.Pay_stub import (
     Pay_stub, Employee_form_data, ModGeneratedPayStubFrom
 )
 from flask_login import (
-    login_user, current_user, logout_user, login_required
+    login_user, current_user, logout_user 
 )
 import secrets
 from PIL import Image
@@ -42,7 +43,7 @@ def setup():
     # db.drop_all()
     # Creates all tables, required if a new db-model to be tested
     db.create_all()
-# ==================================
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -55,7 +56,7 @@ def save_picture(form_picture):
     return picture_fn
 
 @app.route("/account", methods=['GET', 'POST'])
-@login_required
+
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
@@ -73,8 +74,6 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
-
-
 
 # register for new user --> Profile picture
 @app.route("/", methods=['GET', 'POST'])
@@ -111,7 +110,7 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 # altered as wall. home page only shows demo posts 
-@login_required
+
 @app.route("/home")
 def home():
     pass
@@ -193,9 +192,8 @@ def resolve_task(task_id):
 
 # user only> forms for add comp/add employee functions 
 @app.route("/wall", methods=["GET", "POST"])
-@login_required
 def wall():
-    pass
+    pass 
     if Post.query.first() == None:
         pass
         permanent_post = Post(
@@ -211,6 +209,9 @@ def wall():
         posts = Post.query.all()
     if current_user.is_authenticated:
         pass
+        form1 = EmployeeForm()
+        form2 = EmployeeForm()
+        form3 = EmployeeForm()
         print(current_user.username)
         UserAllEmployees = Employee.query.filter_by(user_id=current_user.id)
         UserAllCompanies = Company.query.filter_by(user_id=current_user.id)
@@ -218,6 +219,9 @@ def wall():
         CompanyF0rm = CompanyForm()
         return render_template(
             "wall.html",
+            form = form1,
+            form2 = form2,
+            form3 = form3,
             EmployeeForm=EmployeeF0rm,
             CompanyForm=CompanyF0rm,
             title='wall',
@@ -290,7 +294,6 @@ def addemployee():
 
 # posts were implemented note-like fashion for user-busy-manager
 @app.route("/post/new", methods=['GET', 'POST'])
-@login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
@@ -305,10 +308,33 @@ def new_post():
         title='New Post',
         form=form, legend='New Post',
     )
-
 # forms for timesheet-enter clockin-out time for weekly total hours
 @app.route('/timesheet', methods=['POST', 'GET'])
 def timesheet():
+    pass
+    We3klyTimesheet = WeeklyHours()
+    D4ys = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
+    if request.method == 'POST':
+        pass
+        # still need request.form for iteration through form data
+        result = request.form
+        We3klyTimesheetRes = WeeklyHours(obj=request.form)
+        
+        return render_template(
+            "timesheet_results.html",
+            Days=D4ys,
+            WeeklyResult=result,
+            WeeklyTimesheetRes=We3klyTimesheetRes
+        )
+    return render_template(
+        'timesheet_forms.html',
+        Days=D4ys,
+        form=We3klyTimesheet
+    )
+
+# forms for timesheet-enter clockin-out time for weekly total hours
+@app.route('/timeshe3t', methods=['POST', 'GET'])
+def timeshe3t():
     pass
     We3klyTimesheet = WeeklyHours()
     D4ys = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun']
@@ -334,9 +360,37 @@ def timesheet():
 def intro():
     return render_template('h0me.html')
 
-# forms for paystub 
 @app.route("/send", methods=["GET", "POST"])
 def send():
+    PayStubF0rm = PayStubForm()
+    if request.method == "POST":
+        pass
+        generated_paystub = ModGeneratedPayStubFrom(
+            firstName=request.form["firstName"],
+            middleName=request.form["middleName"],
+            lastName=request.form["lastName"],
+            companyName=request.form["companyName"],
+            allowance=int(request.form["allowance"]),
+            hourlyRate=float(request.form["hourlyRate"]),
+            hoursWorked=float(request.form["hoursWorked"]),
+            payCntYr2Dt=int(request.form["payCntYr2Dt"]),
+            dateStart=request.form["dateStart"], 
+            dateEnd=request.form["dateEnd"]
+        )
+        
+        return render_template(
+            "pay_stub_gen.html",
+            Pay_stub=generated_paystub, 
+        )
+        
+    return render_template(
+        "pay_stub_form.html",
+        form = PayStubF0rm,
+    )
+
+# forms for paystub before WTF
+@app.route("/s3nd", methods=["GET", "POST"])
+def s3nd():
     if request.method == "POST":
         pass
         generated_paystub = ModGeneratedPayStubFrom(

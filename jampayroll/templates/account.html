@@ -1,67 +1,69 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row">
-        <div class="col-sm-4">
-            <img class="card-img-top mb-2"
-            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_user_top.ico"
+<div class="row">
+    <div class="col-sm-4">
+
+        <img class="card-img-top mb-2"
+        src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_user_top.ico"
+        alt="">
+        <div class="container-fluid text-center py-4 my-2">
+            <img class="account-img" src="{{ image_file }}">
+            <div class="list-group">
+                
+                <i class="fa fa-user-circle mr-2 my-3 mt-1" aria-hidden="true"> | Current Name</i>
+
+                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary active mb-1">{{ current_user.username }}</a>
+
+                <i class="fa fa-envelope mr-2 mb-1 mt-2" aria-hidden="true"> | Current User Email</i>
+
+                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary text-dark">{{ current_user.email }}</a>
+            </div>            
+        </div>
+
+        <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_user_bottom.ico"
             alt="">
-            <div class="container-fluid text-center py-4 my-2">
-                <img class="account-img" src="{{ image_file }}">
-                <div class="list-group">
-                    
-                    <i class="fa fa-user-circle mr-2 my-3 mt-1" aria-hidden="true"> | Current Name</i>
+    </div>
+    <!-- UNIFORM FORM-FIELD-ERROR-by_at52 -->
+    <div class="col-sm-4">
+        <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_top.ico"
+            alt="">
 
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary active mb-1">{{ current_user.username }}</a>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% for field in form %}
+            <div class="form-group">
+                <span class="badge badge-secondary text-light text-center mb-0 mt-2">
+                    <a>
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        {{ field.label }}
+                    </a>
+                </span>
+                {{ field(class="form-control form-control-lg border-secondary mb-2") }}
 
-                    <i class="fa fa-envelope mr-2 mb-1 mt-2" aria-hidden="true"> | Current User Email</i>
+                {% if field.errors %}
 
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary text-dark">{{ current_user.email }}</a>
-                </div>            
+                    {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+
+                {% endif %}
+                
             </div>
 
-            <img class="card-img-top mb-2"
-                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/task_new_bottom.ico"
-                alt="">
-        </div>
-        <div class="col-sm-4">
-            <img class="card-img-top mb-2"
-                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_top.ico"
-                alt="">
+            {% endfor %}
+            
+            <div class="form-group">
+            <button type="submit" class="btn btn-danger btn-lg btn-block border-dark" style="border-width: medium;">
+                <a>update user info!</a>
+            </button>                
+            </div>
+        </form>
 
-            <form method="POST" action="" enctype="multipart/form-data">
-                {% for field in form %}
-                <div class="form-group">
-                    <span class="badge badge-secondary text-light text-center mb-0 mt-2">
-                        <a>
-                        <i class="fa fa-share-alt" aria-hidden="true"></i>
-                            {{ field.label }}
-                        </a>
-                    </span>
-                    {{ field(class="form-control form-control-lg border-secondary mb-2") }}
-
-                    {% if field.errors %}
-
-                        {% for error in field.errors %}
-                        <span class="text-danger">{{ error }}</span></br>
-                        {% endfor %}
-
-                    {% endif %}
-                    
-                </div>
-
-                {% endfor %}
-                
-                <div class="form-group">
-                <button type="submit" class="btn btn-danger btn-lg btn-block border-dark" style="border-width: medium;">
-                    <a>update user info!</a>
-                </button>                
-                </div>
-            </form>
-
-            <img class="card-img-top my-2"
-                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_bottom.ico"
-                alt="">
-        </div>
+        <img class="card-img-top my-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_bottom.ico"
+            alt="">
     </div>
+</div>
 
 {% endblock content %}

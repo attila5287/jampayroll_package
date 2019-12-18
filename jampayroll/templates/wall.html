@@ -1,8 +1,145 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/wall_grid_employee.ico"
+            alt="">
+    </div>
+
+    <div class="col-sm-8">
+        <div class="row">
+                    <!-- UNIFORM FORM-FIELD-ERROR-by_at52 -->
+        <div class="col-sm-4">
+            <img class="card-img-top mb-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/home_create.ico"
+                alt="">
+    
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% for field in form %}
+                <div class="form-group">
+                    <span class="badge badge-secondary text-light text-center mb-0 mt-2">
+                        <a>
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                            {{ field.label }}
+                        </a>
+                    </span>
+                    {{ field(class="form-control form-control-lg border-secondary mb-2") }}
+    
+                    {% if field.errors %}
+    
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+    
+                    {% endif %}
+                    
+                </div>
+    
+                {% endfor %}
+                
+                <div class="form-group">
+                <button type="submit" class="btn btn-danger btn-lg btn-block border-dark" style="border-width: medium;">
+                    <a>create!</a> 
+                </button>                
+                </div>
+            </form>
+    
+            <img class="card-img-top my-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_bottom.ico"
+                alt="">
+        </div>
+        <!-- UNIFORM FORM-FIELD-ERROR-by_at52 -->
+        <div class="col-sm-4">
+            <img class="card-img-top mb-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/home_update.ico"
+                alt="">
+    
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% for field in form2 %}
+                <div class="form-group">
+                    <span class="badge badge-secondary text-light text-center mb-0 mt-2">
+                        <a>
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                            {{ field.label }}
+                        </a>
+                    </span>
+                    {{ field(class="form-control form-control-lg border-secondary mb-2") }}
+    
+                    {% if field.errors %}
+    
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+    
+                    {% endif %}
+                    
+                </div>
+    
+                {% endfor %}
+                
+                <div class="form-group">
+                <button type="submit" class="btn btn-danger btn-lg btn-block border-dark" style="border-width: medium;">
+                    <a>update!</a>
+                </button>                
+                </div>
+            </form>
+    
+            <img class="card-img-top my-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_bottom.ico"
+                alt="">
+        </div>
+        <!-- UNIFORM FORM-FIELD-ERROR-by_at52 -->
+        <div class="col-sm-4">
+            <img class="card-img-top mb-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/home_delete.ico"
+                alt="">
+    
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% for field in form3 %}
+                <div class="form-group">
+                    <span class="badge badge-secondary text-light text-center mb-0 mt-2">
+                        <a>
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                            {{ field.label }}
+                        </a>
+                    </span>
+                    {{ field(class="form-control form-control-lg border-secondary mb-2") }}
+    
+                    {% if field.errors %}
+    
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+    
+                    {% endif %}
+                    
+                </div>
+    
+                {% endfor %}
+                
+                <div class="form-group">
+                <button type="submit" class="btn btn-danger btn-lg btn-block border-dark" style="border-width: medium;">
+                    <a>delete!</a>
+                </button>                
+                </div>
+            </form>
+    
+            <img class="card-img-top my-2"
+                src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/account_edit_bottom.ico"
+                alt="">
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <div class="container-fluid my-2 p-2">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             {% for post in WallPosts %}
             <article class="media content-section">
                 <div class="media-body">
@@ -16,11 +153,6 @@
             </article>
             {% endfor %}
         </div>
-    </div>
-</div>
-
-<div class="container-fluid my-2 p-2">
-    <div class="row">
         <div class="col-sm-6">
             <div class="card text-secondary bg-light border-light">
                 <img class="card-img-top"
@@ -56,7 +188,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-sm-5">
             <div class="card text-light bg-dark border-light">
                 <img class="card-img-top"

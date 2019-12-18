@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid p-2 m-2">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_weekly.ico">
+                </div>
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_time.ico">
+                </div>
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_sheet.ico">
+                </div>                                
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="container-fluid">
+                <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_totalfx.ico">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            {% for day in Days %}
+            <div style="height: 60px;">
+                <div class="alert alert-secondary border-dark
+                " role="alert" style="border-bottom-width: medium;">
+                <i class="fa fa-share-alt mr-2" aria-hidden="true"></i>
+                      <a>  {{ day }}</a>
+                </div>
+            </div>
+            {% endfor %}
+            <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/task_menu_bottom.ico">
+        </div>
+        <div class="col-sm-1">
+            {% for label in ['in','out']*7 %}
+            <div style="height: 30px;">
+                <h6 style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 600; text-align: center;">
+                    {{ label }}
+                </h6>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-2">
+            <div class="row">
+                {% for key, value in WeeklyResult.items() %}
+                    <div class="col-sm-4">
+                        <div style = "height: 30px;">
+                            <a style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                            {{ value }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-2">
+            {% for hours in WeeklyTimesheetRes.calc_daily_totals() %}
+            <div style="height: 60px;" >
+                <a><div class="alert alert-secondary border-dark text-center p-2" role="alert" style="border-bottom-width: medium;">
+                        {{ hours }}
+                         hours
+                </div></a>
+            </div>
+            {% endfor %}
+            
+            <div class="container-fluid">
+                <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/paystub_form_bottom.ico">
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="container-fluid">
+            <a><b><div class="alert alert-dark border-dark text-center text-danger p-2" role="alert" style="border-bottom-width: medium;">
+            {{ WeeklyTimesheetRes.calc_daily_total() }}
+            hours
+            </div></b></a>
+            </div>
+
+            <div class="container-fluid">
+                <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/paystub_form_bottom.ico">
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
+

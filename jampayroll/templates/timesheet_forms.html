@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container-fluid p-1 my-2">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_weekly.ico">
+                </div>
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_time.ico">
+                </div>
+                <div class="col-sm-4">
+                    <img class="card-img-top mb-2"
+                    src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/timesheet_sheet.ico">
+                </div>                                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            {% for day in Days %}
+            <div style="height: 70px;">
+                <div class="alert alert-secondary border-dark
+                " role="alert" style="border-bottom-width: medium;">
+                <i class="fa fa-share-alt mr-2" aria-hidden="true"></i>
+                      <a>  {{ day }}</a>
+                </div>
+            </div>
+            {% endfor %}
+            <img class="card-img-top mb-2"
+            src="https://raw.githubusercontent.com/attila5287/payroll_management_app_assets/master/task_menu_bottom.ico">
+        </div>
+        <div class="col-sm-1">
+            {% for label in ['in','out']*7 %}
+            <div style="height: 35px;">
+                <h6 style="font-family:monospace; font-weight: 600; text-align: center;">
+                    {{ label }}
+                </h6>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-4">
+            <form method="POST" action="" role="form", name="form">
+                <div class="row">
+                    {% for field in form %}
+                        <div class="col-sm-4">
+                            <div class="container-fluid m-0 p-0">
+                                
+                                <div class="p-0" style = "height: 35px;">
+                                    {{ field(class="form-control form-control-xs") }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="container-fluid my-2">
+                            <button type="submit" class="btn btn-danger btn-lg btn-block border-secondary" style="border-width: medium;">
+                                    submit for total hours!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
