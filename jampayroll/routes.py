@@ -36,6 +36,8 @@ import secrets
 from PIL import Image
 import os
 
+
+
 @app.before_first_request
 def setup():
     pass
@@ -55,8 +57,51 @@ def save_picture(form_picture):
     image_uploaded.save(picture_path)
     return picture_fn
 
-@app.route("/account", methods=['GET', 'POST'])
 
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+
+
+@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+def update_post(post_id):
+    pass
+    post = Post.query.get_or_404(post_id)
+    
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    
+    
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    
+    return render_template('create_post.html', title='Update Post',
+                           form=form, legend='Update Post')
+
+
+# // TODO delete employee
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
+
+@app.route("/account", methods=['GET', 'POST'])
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
@@ -100,7 +145,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         pass
+        
         user = User.query.filter_by(email=form.email.data).first()
+        
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
@@ -110,7 +157,6 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 # altered as wall. home page only shows demo posts 
-
 @app.route("/home")
 def home():
     pass
