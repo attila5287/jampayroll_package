@@ -55,8 +55,16 @@
                                 </div>
                             </div>
                         </div>
+                        {% if field.errors %}
+
+                        {% for error in field.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+    
+                    {% endif %}
                     {% endfor %}
                 </div>
+                
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="container-fluid my-2">

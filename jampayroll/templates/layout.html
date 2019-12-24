@@ -10,7 +10,8 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    
+    
     {% if title %}
     <title>JAM payroll - {{ title }}</title>
     {% else %}
@@ -51,7 +52,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('send') }}">
-                <i class="fa fa-print mr-2" aria-hidden="true"></i>
+                <i class="fa fa-print mr-4" aria-hidden="true"></i>
                 PayStub</a>
             </li>
             <li class="nav-item">
@@ -111,6 +112,7 @@
 
           {% endblock %}
         </div>
+        
         <div class="col-sm-3">
           <div class="container-fluid my-2 p-2">
             <div class="nav-flex-column text-center" style="width: fit-content; height:max-content;">
